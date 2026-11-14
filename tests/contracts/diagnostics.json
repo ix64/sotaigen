@@ -1,0 +1,140 @@
+{
+ "levels": [
+  "error",
+  "broken",
+  "warning"
+ ],
+ "codes": {
+  "body.unknown": [
+   "known",
+   "name"
+  ],
+  "contact.failed": [
+   "detail",
+   "group"
+  ],
+  "file.format": [
+   "format"
+  ],
+  "file.newer": [
+   "latest",
+   "version"
+  ],
+  "file.no_sex": [],
+  "file.not_json": [
+   "detail"
+  ],
+  "file.not_object": [],
+  "file.not_parameters": [],
+  "file.unreadable": [
+   "detail"
+  ],
+  "file.version": [
+   "version"
+  ],
+  "foot.off_ground": [
+   "limit",
+   "mm"
+  ],
+  "head_swap.collapsed": [
+   "count",
+   "pose"
+  ],
+  "head_swap.kept_parts": [
+   "group",
+   "objects"
+  ],
+  "head_swap.openings": [
+   "count"
+  ],
+  "head_swap.touch_stale": [],
+  "head_swap.unplaced": [
+   "bones"
+  ],
+  "param.missing": [
+   "key"
+  ],
+  "param.not_number": [
+   "key",
+   "value"
+  ],
+  "param.outside": [
+   "high",
+   "key",
+   "low",
+   "value"
+  ],
+  "param.sex": [
+   "sex"
+  ],
+  "param.unknown": [
+   "key"
+  ],
+  "pose.collapsed": [
+   "count",
+   "pose"
+  ],
+  "rest.past_limit": [
+   "axis",
+   "degrees",
+   "high",
+   "limb",
+   "low"
+  ],
+  "rest.unclean": [
+   "axis",
+   "degrees",
+   "high",
+   "limb",
+   "low"
+  ],
+  "rule.<name>": [
+   "short"
+  ],
+  "seam.crease": [
+   "degrees",
+   "limit",
+   "part"
+  ],
+  "seam.miss": [
+   "limit",
+   "part",
+   "share"
+  ],
+  "skin.open": [
+   "edges"
+  ],
+  "surface.<name>": [],
+  "target.missed": [
+   "asked",
+   "key",
+   "reached"
+  ],
+  "target.unreachable": [
+   "detail"
+  ],
+  "touch.unreached": [
+   "arrivalMm",
+   "contact",
+   "gapMm",
+   "palmDegrees",
+   "throughHead"
+  ],
+  "uv.anisotropy": [
+   "limit",
+   "value"
+  ],
+  "uv.stretch": [
+   "limit",
+   "value"
+  ],
+  "wrap.flipped": [
+   "at",
+   "count"
+  ],
+  "wrap.midline": [
+   "at",
+   "count"
+  ]
+ }
+}

@@ -1,0 +1,234 @@
+# 肩颈前后对位动态解剖卡：肩带、颈和头相对胸廓站在前后什么位置，以及这个位置变了以后动作里该怎么变。格式和用法见 docs/motion/README.md。
+# 取舍已定，见各条的 decision。
+region = "shoulder-neck-set"
+title = "肩颈的前后对位"
+status = "confirmed"
+scope = "放松站立时肩带、颈和头相对胸廓的前后位置，肩带前伸和后缩，头的前探和后收，以及从靠后的肩出发垂臂、侧举、前抬。不看胸椎本身的弯曲、耸肩、用力鼓肌和衣物。表中角度是程序输入，不是临床角度。抬臂时肩腋本身的现象归 shoulder-chest，转头、点头归 neck，本卡只看对位改变后它们是否还成立。"
+observed = "使用典型身体检查 shoulderSetback 的静止、垂臂、侧举、前抬和屈肘。默认修正与 IPC 分别验证；当前缺口见 docs/parts/shoulder-neck-set.md。没有真人连续体表扫描用于标定后移量。"
+chain = "胸骨、锁骨（胸锁关节）、肩胛骨（肩锁关节、肩胛胸壁滑动）、肱骨决定肩的前后位置；下位颈椎和上颈段决定头相对胸廓的前后位置。模型有一根 Shoulder 骨，从胸骨旁 0.06 T、y = 0 转到肩关节，一根 neck、一根 head；当前没有独立肩胛骨（见 docs/parts/shoulder-axilla.md 的肩带简化）。"
+notes = [
+  "zones 暂不填：对位在胸廓上看，肘卡的单铰链肢段坐标不适用，shoulder-chest 同理。图用身体坐标系的正交侧面和斜前。",
+  "不要用 motion sweep shoulder-chest 看默认结果的说明见 README；本卡的结果用默认修正形状，不读接触表。",
+  "临床上的前肩角（forward shoulder angle）在不同论文里方向相反，52° 的阈值在一篇是偏小算前肩，在另一篇是偏大算前肩（见 girdle-rest 的依据）。所以它不用作目标数值。",
+  "量法：胸廓中点是裆上 0.75 T 那一圈的前后中点，含胸部；后表面是裆上 0.85 T 那一圈的最后点。"
+]
+
+[joint]
+upper_segment = "trunk"
+lower_segment = "upperArm"
+upper_bone = "upperChest"
+lower_bone = "leftUpperArm"
+focus = "shoulder"
+
+# Negative is retraction: on female-balanced, shoulder X 10 carries the arm's joint 25.5 mm forward.
+[[sweeps]]
+name = "girdle"
+pose = { shoulder = [1, 0, 0] }
+angles = [-15, -10, 0, 10, 15]
+
+# Positive is the head pushed forward: the lower neck flexes and the upper neck extends.
+[[sweeps]]
+name = "carriage"
+pose = { neck = [1, 0, 0], head = [-1, 0, 0] }
+angles = [-10, 0, 10, 15, 20]
+
+[[sweeps]]
+name = "spread"
+pose = { upperArm = [0, 0, 1] }
+angles = [-24, 0, 35, 72]
+
+[[sweeps]]
+name = "reach"
+pose = { upperArm = [1, 0, 0] }
+angles = [0, 35, 60, 75, 95]
+
+[[phenomena]]
+id = "girdle-rest"
+name = "静止时肩带的前后位置"
+structure = "锁骨、肩峰、肩胛骨和肱骨头相对胸廓的位置"
+kind = "bone-motion"
+sweep = "girdle"
+from = -15
+to = 0
+zones = []
+views = ["side", "threequarter", "front"]
+reading = "侧面看肩头和上臂根在胸廓前后的什么位置。肩靠后时，锁骨线向后张开，胸前显得开阔，肩头、上臂和手一起走，不是上臂单独滑到背后。斜前看手臂和躯干错开的程度是最先读出来的差别。"
+current = "shoulderSetback 同时后移肩峰、肩关节、肘和腕，范围 0–0.10 T，默认 0。范围是工程与视觉选择，不是人体中立姿态的标定值。"
+choice = "keep"
+decision = "可调，做成可选的规格项。缺省时身体不变，典型身体不跟着改；范围 0 到 0.10 T。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "8 具整尸 14 个肩（平均 85 岁，坐姿悬吊）、骨针光学追踪：起始位置锁骨后缩约 32°，肩胛前伸约 33°。被动做到底：后缩时锁骨再后缩 9°（SD 2°）、肩胛回收 6°；前伸时锁骨前伸 10°、肩胛前伸 7°。研究只量转动，不量平移，而且是尸体的被动活动。读到 PubMed 全文。"
+source = "Peeters et al., Kinematic analysis of scapulothoracic movements in the shoulder girdle, JSES Int 2022（经 PubMed）"
+url = "https://doi.org/10.1016/j.jseint.2022.09.014"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "12 名无肩病受试者，骨针传感器，抬臂时胸锁关节后缩 23→39°。这是抬臂过程中的数，起点不是放松垂臂，只说明锁骨线在人身上本来就明显向后张开。"
+source = "Ludewig et al., Motion of the Shoulder Complex During Multiplanar Humeral Elevation, J Bone Joint Surg Am 2009（读数同 shoulder-chest 卡）"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC2657311/"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "39 人（30 人无症状）体表传感器：抬臂时锁骨相对胸廓后缩最大 15–29°。只读到 PubMed 摘要。"
+source = "Ludewig et al., Three-dimensional clavicular motion during arm elevation, J Orthop Sports Phys Ther 2004（经 PubMed）"
+url = "https://doi.org/10.2519/jospt.2004.34.3.140"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "30 名健康学生站立，脚和胸廓贴墙，用卡尺量肩峰后缘到墙的水平距离，再量主动后缩时的距离，胸廓不离墙。能量出距离，说明放松时肩峰后缘在胸廓后平面之前，后缩时靠近。具体毫米数在表里，表是图片，表页被人机验证挡住，没读到，所以这里只用量法，不用数值。"
+source = "Struyf et al., Clinical assessment of scapular positioning in musicians, J Athl Train 2009（PMC 页面正文）"
+url = "https://doi.org/10.4085/1062-6050-44.5.519"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "前肩角的两种相反用法。Koo 等：C7 水平线到肩峰的角，小于 52° 算前肩，非前肩组 59.53 ± 5.13°。Nodehi Moghadam 等：44 名女性，大于等于 52° 算圆肩，对照组 18.83 ± 3.07°，圆肩组 55.19 ± 4.25°，文中没写地标和基准线。只能说明临床上把肩峰相对 C7 的前后位置当体态指标，不能当本模型的目标。两篇都读到 PMC 页面正文。"
+source = "Koo et al., J Funct Morphol Kinesiol 2022；Nodehi Moghadam et al., Med J Islam Repub Iran 2020"
+url = "https://doi.org/10.3390/jfmk7040082"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "粗算：female-balanced 上锁骨体块的线约向后张开 20°（胸骨端 y 约 −0.09 T，肩峰端约 0，左右跨度约 0.245 T），Shoulder 骨约 1.7°。后移 0.10 T 后体块的线约 38°，在上面尸体研究的后缩终点 41° 之内。说明这个幅度是明显后缩的体态，不是人做不到的位置；但角度的口径和肢体不同，只作量级。"
+source = "项目粗算，未测量"
+
+[[phenomena]]
+id = "back-axilla-fold"
+name = "肩后移时后腋和肩后的皮肤"
+structure = "后腋襞、肩胛区、三角肌后部的覆盖皮肤"
+kind = "stretch-flatten"
+sweep = "girdle"
+from = -15
+to = 0
+zones = []
+views = ["back", "backquarter", "side"]
+reading = "肩靠后时，肩胛区和后腋襞向中线收拢，背后可以多一条柔和的纵向浅沟，但肩后和腋后不应有放射状的细褶、锯齿或被挤成一团的网格。前腋相应地拉长变平，不应露出尖棱。"
+current = "腋窝凹面跟随后移量的 85%，scapular_masses 提供胸背、胸侧到肩的连接。0.12 T 后移时仍有细褶，当前上限取 0.10 T。后腋细褶与轮廓须在各体型及参数组合上复核。"
+choice = "keep"
+decision = "保留：肩可以后移，范围上限由后腋的视觉验收决定，后腋须满足 reading 中的轮廓要求。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "后腋襞由背阔肌和大圆肌构成，有可动的前缘；研究没有给随肩后缩变化的体表形状。"
+source = "Oh et al., Anatomical Study of the Close Association between Latissimus Dorsi and Surrounding Muscles, 2022（读数同 shoulder-chest 卡）"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC9507577/"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "项目渲染：female-balanced 的 d = 0、0.08、0.16 静止和垂臂灰模。没有查到肩后缩时后腋体表形状的测量，细褶的取舍是风格判断。"
+source = "项目渲染，不入库"
+
+[[phenomena]]
+id = "arm-back-contact"
+name = "垂臂时上臂贴着胸侧后部"
+structure = "上臂内后侧软组织、背阔肌外缘、胸侧"
+kind = "contact"
+sweep = "spread"
+from = -24
+to = 0
+zones = []
+views = ["side", "back", "backquarter"]
+reading = "手臂收下来时，上臂的内后侧靠在胸侧偏后的位置，局部压平后分开。不穿进背里，也不在背后留一条等宽的缝。手落在大腿外侧偏后，不和臀部穿插。"
+current = "达到检查的部分。默认修正形状下，12 个典型身体在 0.10 T，垂臂没有塌陷面和穿插，面积 P1 0.917–0.923，和不后移时持平。当前沿用垂臂隐式修正。手和髋的相对位置变了，arm-hang 卡没有逐项重看。"
+choice = "simplify"
+decision = "简化：不穿插、不留长缝；垂臂修正的实现和验证结果记在 current。"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "项目测量：垂臂面积 P1 和塌陷面。人体上臂相对胸侧后部接触的测量没有查到。"
+source = "项目的线性蒙皮结果，不入库"
+
+[[phenomena]]
+id = "raise-from-set"
+name = "从靠后的肩抬臂"
+structure = "胸锁关节、盂肱关节、肩腋皮肤"
+kind = "bone-motion"
+sweep = "reach"
+from = 0
+to = 95
+zones = []
+views = ["threequarter", "side", "front"]
+reading = "肩靠后时前抬和侧举仍是顺畅的弧线：上臂从背侧的位置转向前方，肩前皮肤跟着拉开，不能在胸前切出一道折痕；侧举的肩顶线不能比肩不靠后时更折。shoulder-chest 卡的各项仍按原来的 decision 看。"
+current = "肩顶权重在关节前方淡出，避免远处上胸随上臂转动。前抬时肩顶弧线和侧举 72° 后腋褶仍需视觉评估；完整参数组合与导出驱动尚未验证。"
+choice = "keep"
+decision = "保留：前抬和侧举要继续干净，这是肩后移能否进默认范围的验收项。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "抬臂时锁骨持续后缩、上抬、后旋，肩胛上回旋；说明肩带位置和抬臂耦合，但没有研究起点更后缩时的轨迹。"
+source = "Ludewig et al., J Bone Joint Surg Am 2009（读数同 shoulder-chest 卡）"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC2657311/"
+
+[[phenomena]]
+id = "girdle-slide"
+name = "肩带前伸后缩时肩胛滑动、胸前开合"
+structure = "肩胛骨内缘、菱形肌和斜方肌中部的覆盖皮肤；胸大肌"
+kind = "slide"
+sweep = "girdle"
+from = -15
+to = 15
+zones = []
+views = ["back", "backquarter", "threequarter"]
+reading = "后缩时两侧肩胛向中线靠拢，背中线两侧形成纵向的浅沟，胸前展开变平；前伸时肩胛外移，背变宽变平，胸前收拢。肩头整块走，皮肤不应只在肩头一小块上移动。"
+current = "部分达到。Shoulder 骨能转，输入 10° 肩关节约走 25 mm（female-balanced，T 538 mm，约 0.047 T），但背后的皮肤权重在胸廓上，肩胛区不动。当前使用锁骨联动，没有独立肩胛骨。"
+choice = "simplify"
+decision = "简化：本卡的静态对位使用身体参数，动态前伸后缩属于姿势，留待单独设计；当前肩带方案见 docs/parts/shoulder-axilla.md 的肩带简化。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "同 girdle-rest 的尸体研究：前伸时锁骨 10°、肩胛 7°，后缩时锁骨 9°、肩胛 6°，肩胛要沿胸廓滑动，同时锁骨作撑杆，所以肩锁关节内出现相对回收。只量转动。"
+source = "Peeters et al., JSES Int 2022（经 PubMed）"
+url = "https://doi.org/10.1016/j.jseint.2022.09.014"
+
+[[phenomena]]
+id = "upper-chest-front"
+name = "上胸前缘的斜坡"
+structure = "胸骨柄、胸骨体上段、胸大肌锁骨部及覆盖皮肤"
+kind = "stretch-flatten"
+sweep = "girdle"
+from = -15
+to = 15
+zones = []
+views = ["side", "threequarter"]
+reading = "侧面从胸骨上切迹往下，上胸前缘是一条连续的斜线，把颈根和胸的最前点连起来，不在胸上段折出一个台阶或平台。"
+current = "胸厚量在裆上 0.71 T，上胸前缘没有独立输入。需要在固定骨架下查看上胸侧面连续性。"
+choice = "keep"
+decision = "保留，作为后续项：上胸前缘单独可调，只动表面，不动骨骼，和肩后移分开做。"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "上胸前缘的连续斜线是本项目的视觉目标，没有人体斜度测量用于标定。"
+source = "项目视觉目标"
+
+[[phenomena]]
+id = "head-carriage"
+name = "头颈相对胸廓的前后位置"
+structure = "下位颈椎、上颈段、头；前探时下颈屈上颈伸，后收时相反"
+kind = "bone-motion"
+sweep = "carriage"
+from = -10
+to = 20
+zones = []
+views = ["side", "threequarter"]
+reading = "侧面看颈根落在胸廓前后的什么位置，头是否顶在肩线之上。头前探和后收时颈是一条连续的 S 形，脸保持朝前，不是整个脖子平移。"
+current = "头颈整体前后位置不可独立调节；头、部件、颈环与骨架共同决定对位。"
+choice = "drop"
+decision = "本卡暂不纳入头颈整体平移；它涉及头、部件、颈环和骨架的一致性，留待单独设计与验证。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "30 名健康者坐姿、头保持水平，用卷尺量头的矢状面平移：从最大后收到最大前探平均 9.1 cm（4.4–14.0，SD 1.9）；前探时下位颈椎屈、上颈段伸，后收相反。同文引用 Hanten 等无颈痛者 10.9 cm。可靠性中等。读到 PubMed 全文，中立位的数在表里，没取到。"
+source = "Severinsson et al., Reliability of Measuring the Cervical Sagittal Translation Mobility, Rehabil Res Pract 2012（经 PubMed）"
+url = "https://doi.org/10.1155/2012/629104"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "126 名健康成人站姿全身 X 线：测了外耳道中心到重力线的距离，它不随年龄增加，而其他脊柱骨盆参数随年龄变化，作者解释为身体代偿以保持视线水平。只读到 PubMed 摘要，具体数值没取到。"
+source = "Hasegawa et al., Normative values of spino-pelvic sagittal alignment, Eur Spine J 2016（经 PubMed）"
+url = "https://doi.org/10.1007/s00586-016-4702-2"
+
+[[phenomena]]
+id = "neck-root"
+name = "颈柱到肩线的转折"
+structure = "斜方肌上部、胸锁乳突肌下端、颈根皮肤"
+kind = "stretch-flatten"
+sweep = "carriage"
+from = 0
+to = 0
+zones = []
+views = ["front", "threequarter", "back"]
+reading = "正面看颈是一段细圆柱，到颈根才转成肩线，还是从下巴下就开始散开。转头和点头时这段转折不能出折角。"
+current = "颈根轮廓由斜方肌、颈部体块及融合共同决定，短颈上的过渡更集中，没有独立的颈柱转折控制。"
+choice = "drop"
+decision = "本卡暂不纳入颈柱转折控制；这是前后对位之外的形体差异，需结合颈部规则和换头单独定，见 docs/parts/head.md。"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "斜方肌上部从枕骨和项韧带走向锁骨外端和肩峰，形成颈根到肩的轮廓。动画风格里这条线的高低没有测量可依。"
+source = "Wikipedia, Trapezius"
+url = "https://en.wikipedia.org/wiki/Trapezius"

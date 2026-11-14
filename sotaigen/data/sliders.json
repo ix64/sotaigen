@@ -1,0 +1,209 @@
+{
+  "note": "The editor's sliders. `groups` is the page's layout and web/editor/regions.ts lists their order; `section` puts a caption above a slider in its group, `advanced` folds it away, and `measure` shows a card of the finished body's measurements under it. Read by web/editor/sliders.ts and sotaigen_dev/editor/sliders.py, which tests/test_editor.py keeps equal. File order is the order of application. What a group, section or slider is called, what a slider's ends mean and what its value means in the world and in which unit are messages of web/messages (group_<id>, section_<id>, slider_<name>, _low, _high, _help, _reading), in English and Chinese; `reading` turns a slider's value into another millimetre figure on the page, for what is still a control value or no length at all, see docs/PARAMETERS.md. A slider of an optional parameter starts where a body without it stands, its Param.default in sotaigen/params/spec.py. `torsoGains` add a share of the torso, for what is signed and so can't be scaled. `carriesShares` keeps every parameter measured in shares of the torso at its share as the torso changes, as sotaigen.params.tools.with_torso_length does. `brings` writes the parameters a slider needs beside it where the body has none, millimetres as shares of the torso. `lifts` raises a parameter in shares of the torso just enough to meet the rule it names (by its name in sotaigen/params/rules.py) after the slider moves, never lowering it: the thigh lifts the hip it can't keep shallow. Macro gains are a first guess, not looked at one by one. The head count's exponents are the table in docs/systems/params.md.",
+  "groups": [
+    { "id": "proportion", "sliders": ["headHeight", "torsoLength", "crotchHeight", "heads", "stature"] },
+    { "id": "quick", "sliders": ["fullness", "tone", "taper", "curve"] },
+    { "id": "head", "sliders": ["headWidthRatio", "headDepth", "jawBreadthRatio"] },
+    { "id": "neck", "sliders": ["neckLength", "neckGirth"] },
+    { "id": "shoulder", "sliders": ["biacromialBreadth", "acromionRise", "shoulderSetback", "chestBreadth", "chestDepth", "pectoralThickness", "deltoidThickness", "trapeziusThickness", "latissimusThickness"] },
+    { "id": "chest", "sliders": ["breastProjection", "breastBaseBreadth", "breastFoldDrop", "breastUpperPoleRatio", "breastGap", "breastApexRatio"] },
+    { "id": "arm", "sliders": ["upperArmLength", "lowerArmLength", "upperArmGirth", "wristGirth", "handLength"] },
+    { "id": "waist", "sliders": ["waistBreadth", "waistContourShift", "upperTrunkLean", "pelvisLean", "abdomenFrontArc", "lumbarHollow"] },
+    { "id": "hip", "sliders": ["hipBreadth", "hipDepth", "outerHipShift", "groinDepth", "groinRelief"] },
+    { "id": "glute", "sliders": ["gluteProjection", "glutePeakShift", "gluteUpperFullness", "gluteLowerFullness", "gluteFoldLength", "gluteFoldDepth"] },
+    { "id": "leg", "sliders": ["kneeHeight", "upperThighGirth", "outerThighArc", "kneeGirth", "calfGirth", "ankleGirth", "footLength", "legClearance", "thighFrontShift", "ankleHeight"] }
+  ],
+  "sliders": {
+    "heads": {
+      "kind": "covary", "param": "derived.heads",
+      "laws": { "kneeGirth": -0.62, "ankleGirth": -0.6, "calfGirth": -0.58, "waistDepth": -0.53, "wristGirth": -0.48, "upperArmGirth": -0.42, "headWidthRatio": -0.39, "handLength": 0.34, "legClearance": -0.3, "neckLength": 1.53, "jawBreadthRatio": -0.95, "lowerArmLength": 0.86, "upperArmLength": 0.53, "crotchHeight": 0.44 }
+    },
+    "stature": {
+      "kind": "scale", "param": "derived.stature", "unit": "mm"
+    },
+    "headHeight": {
+      "kind": "direct", "param": "body.headHeight", "unit": "mm"
+    },
+    "torsoLength": {
+      "kind": "direct", "param": "body.torsoLength", "unit": "mm", "carriesShares": true
+    },
+    "crotchHeight": {
+      "kind": "direct", "param": "body.crotchHeight", "unit": "mm", "carries": ["kneeHeight"]
+    },
+    "biacromialBreadth": {
+      "kind": "direct", "param": "body.biacromialBreadth", "section": "shoulder", "unit": "mm"
+    },
+    "acromionRise": {
+      "kind": "direct", "param": "body.acromionRise", "section": "shoulder", "unit": "mm"
+    },
+    "shoulderSetback": {
+      "kind": "direct", "param": "body.shoulderSetback", "section": "shoulder", "unit": "mm"
+    },
+    "chestBreadth": {
+      "kind": "direct", "param": "body.chestBreadth", "section": "ribcage", "unit": "mm"
+    },
+    "chestDepth": {
+      "kind": "direct", "param": "body.chestDepth", "section": "ribcage", "unit": "mm"
+    },
+    "waistBreadth": {
+      "kind": "direct", "param": "body.waistBreadth", "section": "waist", "unit": "mm"
+    },
+    "abdomenFrontArc": {
+      "kind": "direct", "param": "body.abdomenFrontArc", "section": "profile", "measured": "frontArc", "unit": "mm"
+    },
+    "lumbarHollow": {
+      "kind": "direct", "param": "body.lumbarHollow", "section": "profile", "measure": "abdomen", "measured": "backHollow", "unit": "mm"
+    },
+    "waistContourShift": {
+      "kind": "direct", "param": "body.waistContourShift", "section": "waist", "unit": "mm"
+    },
+    "hipBreadth": {
+      "kind": "direct", "param": "body.hipBreadth", "section": "outline", "unit": "mm"
+    },
+    "hipDepth": {
+      "kind": "direct", "param": "body.hipDepth", "section": "outline", "unit": "mm"
+    },
+    "upperTrunkLean": {
+      "kind": "direct", "param": "body.upperTrunkLean", "section": "profile", "unit": "mm"
+    },
+    "pelvisLean": {
+      "kind": "direct", "param": "body.pelvisLean", "section": "profile", "unit": "mm"
+    },
+    "headWidthRatio": {
+      "kind": "direct", "param": "body.headWidthRatio",
+      "reading": { "of": "head" }
+    },
+    "headDepth": {
+      "kind": "direct", "param": "body.headDepth",
+      "reading": { "of": "head", "factor": 0.92 }
+    },
+    "jawBreadthRatio": {
+      "kind": "direct", "param": "body.jawBreadthRatio"
+    },
+    "neckLength": {
+      "kind": "direct", "param": "body.neckLength", "unit": "mm"
+    },
+    "neckGirth": {
+      "kind": "direct", "param": "body.neckGirth", "unit": "mm"
+    },
+    "upperArmLength": {
+      "kind": "direct", "param": "body.upperArmLength", "unit": "mm"
+    },
+    "lowerArmLength": {
+      "kind": "direct", "param": "body.lowerArmLength", "unit": "mm"
+    },
+    "upperArmGirth": {
+      "kind": "direct", "param": "body.upperArmGirth", "unit": "mm"
+    },
+    "wristGirth": {
+      "kind": "direct", "param": "body.wristGirth", "unit": "mm"
+    },
+    "handLength": {
+      "kind": "direct", "param": "body.handLength", "unit": "mm"
+    },
+    "pectoralThickness": {
+      "kind": "direct", "param": "body.pectoralThickness", "section": "muscle", "unit": "mm"
+    },
+    "deltoidThickness": {
+      "kind": "direct", "param": "body.deltoidThickness", "section": "muscle", "unit": "mm"
+    },
+    "trapeziusThickness": {
+      "kind": "direct", "param": "body.trapeziusThickness", "section": "muscle", "unit": "mm"
+    },
+    "latissimusThickness": {
+      "kind": "direct", "param": "body.latissimusThickness", "section": "muscle", "unit": "mm"
+    },
+    "breastProjection": {
+      "kind": "direct", "param": "body.breastProjection", "unit": "mm",
+      "brings": { "breastBaseBreadth": 0.1386, "breastFoldDrop": 0.3027, "breastUpperPoleRatio": 0.45, "breastGap": 0.1951 }
+    },
+    "breastBaseBreadth": {
+      "kind": "direct", "param": "body.breastBaseBreadth", "unit": "mm"
+    },
+    "breastFoldDrop": {
+      "kind": "direct", "param": "body.breastFoldDrop", "unit": "mm"
+    },
+    "breastUpperPoleRatio": {
+      "kind": "direct", "param": "body.breastUpperPoleRatio"
+    },
+    "breastGap": {
+      "kind": "direct", "param": "body.breastGap", "unit": "mm"
+    },
+    "breastApexRatio": {
+      "kind": "direct", "param": "body.breastApexRatio"
+    },
+    "gluteProjection": {
+      "kind": "direct", "param": "body.gluteProjection", "section": "glute", "unit": "mm"
+    },
+    "glutePeakShift": {
+      "kind": "direct", "param": "body.glutePeakShift", "section": "glute", "unit": "mm"
+    },
+    "gluteUpperFullness": {
+      "kind": "direct", "param": "body.gluteUpperFullness", "section": "glute", "unit": "mm"
+    },
+    "gluteLowerFullness": {
+      "kind": "direct", "param": "body.gluteLowerFullness", "section": "glute", "unit": "mm"
+    },
+    "outerHipShift": {
+      "kind": "direct", "param": "body.outerHipShift", "section": "outline", "unit": "mm"
+    },
+    "gluteFoldLength": {
+      "kind": "direct", "param": "body.gluteFoldLength", "section": "gluteFold", "unit": "mm"
+    },
+    "gluteFoldDepth": {
+      "kind": "direct", "param": "body.gluteFoldDepth", "section": "gluteFold", "unit": "mm"
+    },
+    "groinDepth": {
+      "kind": "direct", "param": "body.groinDepth", "section": "groin", "unit": "mm"
+    },
+    "groinRelief": {
+      "kind": "direct", "param": "body.groinRelief", "section": "groin", "unit": "mm"
+    },
+    "kneeHeight": {
+      "kind": "direct", "param": "body.kneeHeight", "section": "length", "unit": "mm"
+    },
+    "upperThighGirth": {
+      "kind": "direct", "param": "body.upperThighGirth", "section": "thigh", "step": 0.5, "unit": "mm",
+      "lifts": {"hipDepth": "hip_shallow_thigh"}
+    },
+    "outerThighArc": {"kind": "direct", "param": "body.outerThighArc", "section": "thigh", "measure": "thigh", "measured": "outerArc", "step": 0.1, "unit": "mm"},
+    "kneeGirth": {
+      "kind": "direct", "param": "body.kneeGirth", "section": "belowKnee", "unit": "mm"
+    },
+    "calfGirth": {
+      "kind": "direct", "param": "body.calfGirth", "section": "belowKnee", "unit": "mm"
+    },
+    "ankleGirth": {
+      "kind": "direct", "param": "body.ankleGirth", "section": "belowKnee", "unit": "mm"
+    },
+    "footLength": {
+      "kind": "direct", "param": "body.footLength", "section": "belowKnee", "unit": "mm"
+    },
+    "legClearance": {
+      "kind": "direct", "param": "body.legClearance", "unit": "mm", "advanced": true
+    },
+    "thighFrontShift": {
+      "kind": "direct", "param": "body.thighFrontShift", "unit": "mm", "advanced": true
+    },
+    "ankleHeight": {
+      "kind": "direct", "param": "body.ankleHeight", "unit": "mm", "advanced": true
+    },
+    "fullness": {
+      "kind": "macro",
+      "scales": { "upperThighGirth": 0.2, "upperArmGirth": 0.2, "kneeGirth": 0.2, "calfGirth": 0.12, "neckGirth": 0.1, "hipBreadth": 0.1, "hipDepth": 0.12 }
+    },
+    "tone": {
+      "kind": "macro",
+      "gains": { "definition": 0.25, "softness": -0.15 }
+    },
+    "taper": {
+      "kind": "macro",
+      "scales": { "kneeGirth": -0.13, "wristGirth": -0.13, "ankleGirth": -0.13, "handLength": -0.13, "footLength": -0.13, "neckGirth": -0.16 }
+    },
+    "curve": {
+      "kind": "macro",
+      "torsoGains": { "upperTrunkLean": 0.004, "pelvisLean": 0.004 },
+      "scales": { "waistBreadth": -0.13, "hipBreadth": 0.11 }
+    }
+  }
+}

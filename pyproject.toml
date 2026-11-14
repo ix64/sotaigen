@@ -1,0 +1,77 @@
+[project]
+name = "sotaigen"
+version = "0.1.0"
+description = "Anime-style human base bodies from semantic measurements: one topology, a rigged .blend and a GLB"
+readme = "README.md"
+authors = [{ name = "Aerix" }]
+keywords = ["anime", "base mesh", "character", "rigging", "parametric", "blender", "gltf"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+]
+requires-python = ">=3.14,<3.15"
+# The package is sotaigen/ alone. What imports bpy is GPL, the package sotaigen-blender in blender/.
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+dependencies = ["numpy", "scipy==1.18.1"]
+
+[project.urls]
+Homepage = "https://github.com/ix64/sotaigen"
+Repository = "https://github.com/ix64/sotaigen"
+Issues = "https://github.com/ix64/sotaigen/issues"
+Documentation = "https://github.com/ix64/sotaigen/tree/main/docs/en/reference"
+
+[project.optional-dependencies]
+# The IPC contact tables, an experimental feature: export --contact and the editor's IPC export. The
+# default correctives don't need it (tests/test_default_path.py).
+contact = ["ipctk==1.6.0"]
+
+[project.scripts]
+# The commands a downstream project needs, runnable with uv alone: check, glb and blend of a parameter file.
+sotaigen = "sotaigen.cli:main"
+
+[dependency-groups]
+dev = [
+    # Local command entry points, installed only in a checkout.
+    "sotaigen-dev",
+    # The .blend: GPL, in blender/, as its own package.
+    "sotaigen-blender",
+    # The review sheets and study pictures (sotaigen_dev), which the package doesn't draw.
+    "pillow",
+    "pytest",
+    "pytest-xdist==3.8.0",
+    "ruff",
+]
+
+[build-system]
+# Same version as tool.uv.required-version in the root pyproject.toml: uv then uses its bundled backend and downloads nothing.
+requires = ["uv_build==0.13.6"]
+build-backend = "uv_build"
+
+[tool.uv.workspace]
+members = ["blender"]
+exclude = ["dev"]
+
+[tool.uv.sources]
+sotaigen-blender = { workspace = true }
+sotaigen-dev = { path = "dev", editable = true }
+
+[tool.uv]
+# Any other uv refuses to sync or run, so uv.lock is only written by this version.
+required-version = "==0.13.6"
+exclude-newer = "14 days"
+
+[tool.uv.build-backend]
+module-name = "sotaigen"
+module-root = ""
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100

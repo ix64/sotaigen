@@ -1,0 +1,86 @@
+# 动态解剖卡：张嘴时下颌和下半张脸的皮肤该怎么变。格式和用法见 docs/motion/README.md。
+# 取舍已定，见各条的 decision。
+region = "jaw"
+title = "张嘴：下颌的转动和前滑"
+status = "confirmed"
+scope = "下颌相对头骨的矢状面张合（jaw 的 X），以及它和转头、点头的组合。头的皮肤不开口（现状与局限见 docs/parts/head.md），所以这里的张嘴是下半张脸整块下移、皮肤拉过嘴的位置，不看口腔、牙和舌。不看说话的连续口型、咀嚼和用力时的肌肉。"
+observed = "转心、前滑和权重在 female-long、male-balanced、female-chibi 上定，再看 12 个典型身体的 0、10、20° 和转头、点头加 20°，clay 和 toon。只有文字和文献参照，没有核实过的真人照片，观感要由用户补上。"
+chain = "颞下颌关节（髁突、关节盘、关节结节）带下颌骨。张嘴先以转动为主，随后转动加髁突沿关节结节向前下滑。模型只有一根 jaw 骨，头在两侧关节连线的中点，尾在下巴；前滑由 jaw 的 X 带出来，不是单独的通道。咬肌、二腹肌、颈阔肌都不是单独的形体。"
+notes = [
+  "zones 暂不填：下颌在中线上，肘卡的单铰链肢段坐标不适用，motion sweep 不能直接用这张卡。看图用 scripts/head_review.py --only jaw,gaze。",
+  "人能张多大见 range-of-motion.md；本卡定的是我们要用到多大。视线的眼骨没有皮肤，不写卡，活动范围在同一张表里。",
+  "其余按简化做了，缺陷记在 docs/parts/head.md：下巴和下唇跟 jaw，眼和额不动（Ozsoy 2023 的光电测量里张嘴时内眼角最稳定，只读到摘要，doi:10.1089/fpsam.2022.0364）；嘴角约走一半（没找到人体研究，是判断）；颏下的权重渐变到颈环为零，颈环和颈段不带 jaw；转头、点头加张嘴 20° 由检查姿势 jawTurn、jawNod 守住。",
+  "转动和前滑其实可以分开控制：Ostry 和 Munhall 1994 的说话和咀嚼数据里两者的平均幅度可以独立变化，只是逐次之间相关。这里用一个角度带出前滑，是为了动画师只转一个控件，要单独前伸时再议。"
+]
+
+[joint]
+upper_segment = "head"
+lower_segment = "head"
+upper_bone = "head"
+lower_bone = "jaw"
+focus = "head"
+
+[[sweeps]]
+name = "open"
+pose = { jaw = [1, 0, 0] }
+angles = [0, 5, 10, 15, 20, 27]
+
+[[phenomena]]
+id = "hinge-and-glide"
+name = "下颌先转后滑，转心不在一点上"
+structure = "颞下颌关节：髁突、关节结节"
+kind = "bone-motion"
+sweep = "open"
+from = 0
+to = 27
+zones = []
+views = ["side", "threequarter"]
+reading = "侧面看，下巴向下并略向后走，下颌角（耳下）不向后撞进颈，耳前的皮肤不被顶出一个鼓包。纯转动时下颌角直接往颈上压，读起来像铰链玩具。"
+current = "做到了，前滑比人大。转心在中线上，从头顶往下 0.63 头高、头轴上（耳根之前）。按人的比例前滑（骨长的 0.005/度，来自转动占 77%）时，20° 下巴向后 24–27 mm、向下只有 22–26 mm，颏下被顶出尖棱，颈上有折线，因为这个头的下巴在关节下方多、前方少（下 0.37、前 0.28 头高），人的下巴是前方多。现在用 0.0125/度（20° 约 27 mm），12 个典型身体 20° 下巴向下 25–33 mm、向后 9–12 mm，折线消失，代价是脸颊从耳前一起向前下移，大张时侧面下半张脸整块前移。"
+choice = "exaggerate"
+decision = "前滑骨长的 0.0125/度，是人的比例的 2.5 倍，以补偿这个头的短下颌：下巴向下走，不向后顶进颈。由一个角度带出，转心在关节处，方向沿关节结节向前下 35°，不做先转后滑的两段，也不做张合路径不同。jaw 的局部轴 X+ 张开，和点头同向，进对外约定。"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "健康受试者实时 MRI：下颌平均转动 26.6°（SD 7.2），髁道水平倾角平均 34.8°（SD 11.3）；结果支持瞬时转心而不是固定铰链，张和合走不同的路径。只读到 PubMed 摘要。"
+source = "Krohn et al., 2020, Int J Comput Dent 23(3):235–244（经 PubMed，PMID 32789311）"
+url = "https://pubmed.ncbi.nlm.nih.gov/32789311/"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "26 名健康受试者光电运动分析：张嘴时转动的份额总大于平移，但从不接近 100%；绕竖轴和前后轴的转动可以忽略；最大张口和髁突平移之间没有显著相关。只读到 PubMed 摘要。"
+source = "Mapelli et al., 2009, Clin Anat 22(3):311–318（经 PubMed）"
+url = "https://doi.org/10.1002/ca.20756"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "参照组的健康成人最大张口时，切牙点的运动里转动占 77%。这是髁突骨折研究里的对照值，只读到 PubMed 摘要。"
+source = "Sforza et al., 2009, J Craniomaxillofac Surg 37(6):327–333（经 PubMed）"
+url = "https://doi.org/10.1016/j.jcms.2009.01.002"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "说话和咀嚼时下颌转动和水平平移可以分开控制：说话时平均转动幅度可以独立于水平平移变化，逐次之间两者相关，关节空间里路径是直的。只读到 PubMed 摘要。"
+source = "Ostry & Munhall, 1994, J Neurophysiol 71(4):1528–1545（经 PubMed）"
+url = "https://doi.org/10.1152/jn.1994.71.4.1528"
+
+[[phenomena]]
+id = "how-far"
+name = "张到多大"
+structure = "下颌；切牙间距"
+kind = "bone-motion"
+sweep = "open"
+from = 0
+to = 27
+zones = []
+views = ["front", "side"]
+reading = "正面看下巴下移多少、脸变长多少；侧面看颏下和颈前的角。皮肤不开口，下半张脸被拉长，张得越大越不像嘴，越像脸在变长。"
+current = "各档都能摆。转动的上限（关节极限）27° 按人的最大值。12 个典型身体到 27° 都没有面压过塌陷线（最小面积比 0.21，20° 是 0.38）。皮肤不开口，皮肤从鼻下到下巴被拉长，20° 面积最多放大 2.5 倍，27° 2.9 倍，三分之四看脸明显变长，10°（下巴下移 14–18 mm）以内最自然。"
+choice = "simplify"
+decision = "关节极限 27°，按人的最大值，不挡姿势；干净范围 20°，10° 内最自然。15° 以上脸变长和圆身体下巴的转折记入已知缺陷（docs/parts/head.md）；更大的张嘴要开口的头，由下游换头。"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "452 名 20–35 岁中国成人最大张口 52.02 ± 5.09 mm，男 54.18、女 49.62，和身高、体重中度相关。只读到 PubMed 摘要。"
+source = "Li et al., J Dent Sci 12(1):56–59（经 PubMed）"
+url = "https://doi.org/10.1016/j.jds.2016.09.002"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "爱尔兰 1513 名 16–99 岁成人平均最大张口男 43 mm、女 41 mm，随年龄减小。只读到 PubMed 摘要。"
+source = "Gallagher et al., 2004, J Oral Rehabil 31(2):110–116（经 PubMed）"
+url = "https://doi.org/10.1046/j.0305-182x.2003.01209.x"

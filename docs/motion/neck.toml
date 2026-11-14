@@ -1,0 +1,175 @@
+# 颈部动态解剖卡：转头、点头、仰头、侧屈时颈部表面该怎么变。格式和用法见 docs/motion/README.md。
+# 取舍已定，见各条的 decision。
+region = "neck"
+title = "颈：转头、点头、侧屈"
+status = "confirmed"
+scope = "头相对胸廓的转动：转头（neck、head 绕各自 Y）、点头和仰头（X）、侧屈（Z），各骨的输入角度，合计是两倍。胸廓和肩不动，不看耸肩、吞咽、说话的下颌和用力时的肌肉紧张。"
+observed = "颈部权重按毫米平滑之后：12 个典型身体、两个细颈身体、male-balanced 颈围 1.62–1.80 头的 4 个变体、7 个压力测试里曾转头塌陷的身体、35 个随机抽的短颈身体，各骨 20、25、30° 转头，各骨 20° 点头、15° 仰头、15° 侧屈。只有文字和文献参照，没有核实过的真人照片，观感要由用户补上。"
+chain = "枕骨、寰椎、枢椎和下位颈椎（C3–C7）。转头约一半在寰枢关节，点头的约四分之一在枕寰关节，其余分在下位颈椎。模型只有两根骨：head 代表枕寰和寰枢（上颈段），neck 代表下位颈椎；胸锁乳突肌、斜方肌、颈阔肌都不是单独的形体。"
+notes = [
+  "zones 暂不填：颈在中线上，肘卡的单铰链肢段坐标不适用，motion sweep 不能直接用这张卡。看图用 uv run sotaigen-dev review sheet 加 --focus neck 和 --against 出前后对照，角度序列见 docs/systems/rig.md 的干净范围。",
+  "人的活动范围（颈旋转每侧约 78°、屈伸各约 60°、侧屈约 40°）见 range-of-motion.md；本卡只管干净范围目标内（转头各骨 25°，点头各骨 20°，仰头各骨 15°）的表面。",
+  "当前颈部变形由权重完成，没有颈部修正形状。胸锁乳突肌和细褶按各条 decision 简化或舍弃；实现见 docs/systems/rig.md。"
+]
+
+[joint]
+upper_segment = "neck"
+lower_segment = "head"
+upper_bone = "neck"
+lower_bone = "head"
+focus = "neck"
+
+[[sweeps]]
+name = "turn"
+pose = { neck = [0, 1, 0], head = [0, 1, 0] }
+angles = [0, 10, 20, 25, 30]
+
+[[sweeps]]
+name = "nod"
+pose = { neck = [1, 0, 0], head = [1, 0, 0] }
+angles = [-20, -15, -10, 0, 10, 20, 25]
+
+[[sweeps]]
+name = "tilt"
+pose = { neck = [0, 0, 1], head = [0, 0, 1] }
+angles = [0, 10, 15, 20]
+
+[[phenomena]]
+id = "turn-spread"
+name = "转头分在整段颈上"
+structure = "寰枢关节和下位颈椎；颈部皮肤"
+kind = "bone-motion"
+sweep = "turn"
+from = 0
+to = 30
+zones = []
+views = ["threequarter", "front"]
+reading = "转头时颈的扭转从颈根到下巴下连续变化，斜前看颈的轮廓和 toon 明暗线没有一圈台阶、领口状的棱或小钩；下巴和脸整块随头转，肩线和斜方肌上缘不跟着转。"
+current = "达到。颈部权重按皮肤上的毫米平滑（0.10 头高），不按网格的边数扩散：短颈上模板颈部最上几排挤在下巴下 1–2 mm 内，按边数扩散时 head 的权重在其中跳 0.2，转头时相邻两排沿各自的斜度错开，压扁中间的面，颈根成一圈领口状的棱。按毫米平滑后，压力测试的 7 个身体、6 个颈部变体和 12 个典型身体到各骨 30° 都不塌，最小面积比 0.41 以上，没有领口棱；贴合把颈部的排按列等距之后（docs/systems/wrap-uv.md 的“颈部的排”），35 个随机短颈身体各骨 30° 最小 0.48。脸（从头顶 0.9 头高以内）仍是纯 head。"
+choice = "keep"
+decision = "保留：扭转沿颈长连续分布，用权重做，不加骨骼。"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "286 个尸体颈椎标本、1009 个运动节段的纯力矩测试：寰枢（C1–2）占全颈轴向旋转的 53%，枕寰（Occ–C1）占屈伸的 24%。只读到 PubMed 摘要。"
+source = "Farber et al., 2025, J Neurosurg Spine 43(3):352–360（经 PubMed）"
+url = "https://doi.org/10.3171/2025.3.SPINE241380"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "20 名健康青年 CT 三维重建：最大右转时寰枢旋转 37.9°，占全颈 72.4° 的 52%；枕寰在转头时伴随约 7° 侧屈和 9° 后伸。只读到 PubMed 摘要（中文论文）。"
+source = "Zhai et al., 2019, 中国骨伤 32(7):658–665（经 PubMed）"
+url = "https://doi.org/10.3969/j.issn.1003-0034.2019.07.014"
+
+[[phenomena]]
+id = "scm-turn"
+name = "转头时对侧胸锁乳突肌成一条斜带"
+structure = "胸锁乳突肌（乳突到胸骨柄、锁骨内端）"
+kind = "muscle-bulge"
+sweep = "turn"
+from = 15
+to = 30
+zones = []
+views = ["threequarter", "front"]
+reading = "转向一侧时，对侧颈前从耳后到胸骨上切迹旁出现一条斜向的隆起带，同侧的那条变短、不明显；带的下端落在锁骨内端，和锁骨内端随颈后退的形体（docs/parts/head.md）相接。"
+current = "未做。模型没有胸锁乳突肌的形体，转头时颈侧是光滑的扭转圆柱。平滑权重在颈根对侧留下一条很浅的斜向明暗，不是肌带。"
+choice = "drop"
+decision = "舍弃：当前颈部造型取光滑圆柱，省略胸锁乳突肌斜带。若增加这项表现，重新确认现象取舍后再选实现方法。"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "胸锁乳突肌是颈部的主要体表标志，转头时清楚可见；单侧收缩使头转向对侧、同侧侧屈，两侧同时收缩屈颈。"
+source = "Wikipedia, Sternocleidomastoid muscle"
+url = "https://en.wikipedia.org/wiki/Sternocleidomastoid_muscle"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "单侧收缩使头转向对侧并同侧侧屈；把颈分成前三角和后三角。"
+source = "Radiopaedia, Sternocleidomastoid muscle"
+url = "https://radiopaedia.org/articles/sternocleidomastoid-muscle"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "20 人三维等长用力：胸锁乳突肌肌电的偏好方向包含对侧轴向旋转，剪切模量的偏好方向略偏同侧侧屈。研究的是用力，不是随角度的形状。只读到 PubMed 摘要。"
+source = "Wolff, Leonardis, Lipps, 2020, J Electromyogr Kinesiol 55:102480（经 PubMed）"
+url = "https://doi.org/10.1016/j.jelekin.2020.102480"
+
+[[phenomena]]
+id = "front-creases"
+name = "点头时颈前横纹、颏下相压"
+structure = "颈前皮肤、颈阔肌、颏下软组织"
+kind = "crease"
+sweep = "nod"
+from = 10
+to = 25
+zones = []
+views = ["side", "threequarter"]
+reading = "点头时下巴压向喉前，颏下和颈前的皮肤横向起褶，侧面看颏下到喉前是一个收紧的角，而不是下巴穿进颈里；仰头时这些褶展开，颈前拉长变平，颏颈角打开。"
+current = "部分达到。点头各骨 20° 颈前压缩时没有塌陷和穿插（最小面积比 0.62 以上），没有横纹，颏下是光滑的折角。仰头见 nape-front-extension。"
+choice = "simplify"
+decision = "简化：不做细褶，只保证颏下压缩时没有穿插和尖棱；toon 下最多一道横向明暗。"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "颈阔肌收缩使颈部皮肤表面出现轻微的斜向皱纹。"
+source = "Wikipedia, Platysma muscle"
+url = "https://en.wikipedia.org/wiki/Platysma_muscle"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "颈部横纹（horizontal neck lines）是常见的皮肤老化标志，临床有专门的分级量表。研究的是静止时的皱纹，不是随点头的折痕。只读到 PubMed 摘要。"
+source = "Jiang et al., 2026, Clin Cosmet Investig Dermatol 19:586105（经 PubMed）"
+url = "https://doi.org/10.2147/CCID.S586105"
+
+[[phenomena]]
+id = "nape-front-extension"
+name = "仰头时后颈起褶、颈前拉长"
+structure = "项部皮肤、斜方肌上部、枕下；颈前皮肤"
+kind = "crease"
+sweep = "nod"
+from = -20
+to = 0
+zones = []
+views = ["side"]
+reading = "仰头时后脑靠向后颈，枕下的皮肤横向起一两道褶，后脑不应压进后颈；颈前从下巴到胸骨上切迹拉成一条长而平的线。"
+current = "部分达到。仰头各骨 15° 没有塌陷，最小面积比 0.59 以上；颈前根部是连续的弧；后颈是一道光滑的折，没有褶。干净范围表记 30° 后脑压到后颈，没有重看。"
+choice = "simplify"
+decision = "简化：后颈只保证不穿插、不出尖棱，不做褶。"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "两侧斜方肌同时收缩、肩胛稳定时可以伸颈。"
+source = "Wikipedia, Trapezius"
+url = "https://en.wikipedia.org/wiki/Trapezius"
+
+[[phenomena]]
+id = "nape-stretch"
+name = "点头时后颈拉长变平"
+structure = "项部皮肤、斜方肌上部、项韧带"
+kind = "stretch-flatten"
+sweep = "nod"
+from = 10
+to = 25
+zones = []
+views = ["side"]
+reading = "点头时后颈从后脑到肩之间拉成一条连续的弧，不应出现凹坑或两个鼓包。"
+current = "各骨 20° 的斜前 toon 上 Q版后颈没有小台阶；侧面没有逐个重看，干净范围表记的 30° 两个软鼓包加一道折也没有重看。"
+choice = "keep"
+decision = "保留：后颈一条连续的弧，用权重做。"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "全颈屈曲时下位颈椎的屈曲大于前伸姿势，上颈段处在屈曲范围内但不到终末。只读到 PubMed 摘要。"
+source = "Ordway et al., 1999, Spine 24(3):240–247（经 PubMed）"
+url = "https://doi.org/10.1097/00007632-199902010-00008"
+
+[[phenomena]]
+id = "side-bend"
+name = "侧屈时同侧颈侧收紧、对侧拉长"
+structure = "胸锁乳突肌、斜角肌、斜方肌上部"
+kind = "stretch-flatten"
+sweep = "tilt"
+from = 10
+to = 20
+zones = []
+views = ["front", "threequarter"]
+reading = "头歪向一侧时，同侧颈侧收短、可以有一道浅褶；对侧从耳后到肩是一条拉长的斜线。下巴角不应切进颈里成小钩。"
+current = "部分达到。各骨 15° 不塌（最小面积比 0.55 以上），Q版同侧颈侧没有凹口和尖角，但下巴角下方的轮廓仍有一个向内的小钩（头和颈的轮廓相交，不是塌陷）。"
+choice = "simplify"
+decision = "简化：同侧只保证没有凹口和尖角，不做褶。"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "胸锁乳突肌单侧收缩时同侧侧屈颈部。"
+source = "Radiopaedia, Sternocleidomastoid muscle"
+url = "https://radiopaedia.org/articles/sternocleidomastoid-muscle"

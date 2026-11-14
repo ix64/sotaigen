@@ -1,0 +1,212 @@
+# 肘部动态解剖卡。格式和用法见 docs/motion/README.md。
+# 还没解决：肘尖、肘窝和背侧拉长需在当前身体上复核；提携角下的屈肘手向仍待看图。
+region = "elbow"
+title = "肘"
+status = "confirmed"
+scope = "屈伸。前臂旋前旋后属于腕和前臂，另开一张卡。"
+observed = "在典型与测试身体上复核屈肘的灰模、toon、截面及接触。已有文字和文献参照，没有核实过的真人连续照片，观感仍需看图判断。"
+notes = ["伸直时肘部轮廓两侧各有一个小折点，来自静止形体，不是蒙皮造成的，属于形体，另看。"]
+chain = "肱骨、尺骨、桡骨。屈伸近似铰链，但提携角随屈曲减小，见 forearm-line。模型现在是单轴铰链，静止提携角画得很小，这属于形体。"
+
+[joint]
+upper_segment = "upperArm"
+lower_segment = "lowerArm"
+upper_bone = "leftUpperArm"
+lower_bone = "leftLowerArm"
+focus = "elbow"
+
+[[sweeps]]
+name = "flex"
+pose = { lowerArm = [1, 0, 0] }
+angles = [0, 45, 90, 120, 145]
+
+# 轴向位置以肘心为零，向前臂为正，单位是前臂长。方位角 0 是屈侧，180 是背侧，+90 是外侧。
+[zones.inner-fold]
+axial = [-0.16, 0.16]
+azimuth = 0
+spread = 75
+
+[zones.elbow-tip]
+axial = [-0.14, 0.14]
+azimuth = 180
+spread = 55
+
+[zones.biceps-belly]
+axial = [-0.85, -0.25]
+azimuth = 0
+spread = 65
+
+[zones.triceps-distal]
+axial = [-0.60, -0.08]
+azimuth = 180
+spread = 65
+
+[zones.forearm-flexors]
+axial = [0.10, 0.50]
+azimuth = 0
+spread = 75
+
+[[phenomena]]
+id = "elbow-tip"
+name = "肘尖显露"
+structure = "尺骨鹰嘴、肱骨内外上髁"
+kind = "bone-reveal"
+sweep = "flex"
+from = 60
+to = 145
+zones = ["elbow-tip"]
+views = ["side", "back"]
+reading = "屈到 90° 左右，侧面背轮廓应有一个集中在一处的角，由鹰嘴撑出。多段折线或圆弧都不对。"
+current = "背侧皮肤分别跟随上下肢段，使肘尖保持离弯曲轴的距离；转角与背侧、侧面连接的细线需看图复核。"
+choice = "simplify"
+decision = "保留并简化：一个干净的硬朗转角，不做三点骨性细节。"
+[[phenomena.evidence]]
+strength = "textbook"
+claim = "伸直时鹰嘴尖略高于两髁连线，屈曲时落到线下，屈到直角时与两髁大致成等边三角形。"
+source = "MacEwen, Surgical Anatomy"
+url = "https://bookdome.com/health/anatomy/Surgical-Anatomy/The-Elbow-Surface-Anatomy.html"
+
+[[phenomena]]
+id = "cubital-fold"
+name = "肘窝横褶"
+structure = "肘窝皮肤"
+kind = "crease"
+sweep = "flex"
+from = 45
+to = 145
+zones = ["inner-fold"]
+views = ["side", "front"]
+reading = "屈侧一道横褶，两端朝内外髁，只在屈侧，不绕臂一圈。褶线略高于关节线、向远端凸。"
+current = "屈侧横褶属于保留现象，当前折点、环带与深屈时暗缝需复核，不能把穿插形成的窄缝当作自然褶皱。"
+choice = "keep"
+decision = "保留：褶的位置和走向要对，这里的压扁面属于预期。"
+[[phenomena.evidence]]
+strength = "textbook"
+claim = "肘褶向下凸，连接两髁，略高于关节线；前方是三角形的肘窝凹陷。"
+source = "MacEwen, Surgical Anatomy"
+url = "https://bookdome.com/health/anatomy/Surgical-Anatomy/The-Elbow-Surface-Anatomy.html"
+[[phenomena.evidence]]
+strength = "textbook"
+claim = "肘窝是肘前的倒三角形间隙，这个名称也用于其体表皮肤。"
+source = "Radiopaedia, Cubital fossa"
+url = "https://radiopaedia.org/articles/cubital-fossa?lang=us"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "50 名健康志愿者的双侧肘部，报告主褶线到内外上髁、鹰嘴、桡骨头的平均垂直距离。只读到 PubMed 摘要，没有 PMC 全文；摘要未说明正负号约定，不用其数值。"
+source = "Itamura, Papadakis et al., 2008 在线发表，Surg Radiol Anat 31(1):55–58"
+url = "https://doi.org/10.1007/s00276-008-0385-7"
+
+[[phenomena]]
+id = "soft-contact"
+name = "前臂与上臂相压"
+structure = "前臂屈肌群、肱二头肌"
+kind = "contact"
+sweep = "flex"
+from = 120
+to = 145
+zones = ["inner-fold", "biceps-belly", "forearm-flexors"]
+views = ["side"]
+reading = "大角度时两团软组织相压变平，接触线从肘窝向外延伸。不应互相穿过后留一道尖缝。"
+current = "未达到。12 个典型身体（屈肘目标 145°）：截面上前臂皮肤穿进上臂，没有相压变平，145° 进入约上臂一半厚度；`lowerArm|upperArm` 120° 106–138、145° 174–197，塌陷 145° 8–16（都在 inner-fold）。145° 正面 toon 上前臂屈肌从二头肌里穿出成亮斑，背面两层轮廓，侧面肘窝一个小钩，全部身体都有；侧面大多被挡住。取舍已定为只保证看不到穿插和尖缝，所以这是技术问题，方案在 docs/parts/limbs.md 的“屈肘 145° 和屈腕 60°”。"
+choice = "simplify"
+decision = "简化：屈到约 120° 前不必接触，更大角度只保证看不到穿插和尖缝。"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "主动屈肘约到 145° 时受前群肌肉接触限制。"
+source = "Wikipedia, Elbow"
+url = "https://en.wikipedia.org/wiki/Elbow"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "屈肘的正常终末感是软组织相压，伸肘是骨性止动。"
+source = "Physiotutors, PROM of the Elbow（该页同时另列组织牵拉，有不一致）"
+url = "https://book.physiotutors.com/?p=220"
+
+[[phenomena]]
+id = "biceps-bulge"
+name = "肱二头肌隆起"
+structure = "肱二头肌、肱肌"
+kind = "muscle-bulge"
+sweep = "flex"
+from = 45
+to = 145
+zones = ["biceps-belly"]
+views = ["side", "front"]
+reading = "用力时肌腹变厚变窄、峰朝肘移。放松屈肘不应有明显隆起，所以它随用力变化，不只随角度变化。至少不能比静止时明显变瘪。"
+current = "符合建议。肌腹区逐顶点没有移动（半径 100%），不瘪也不隆起。"
+choice = "simplify"
+decision = "简化：姿势只保证不瘪，用力隆起留给单独的表演控制。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "11 名年轻男性 MRI，30% 最大等长收缩时屈肘肌厚度增加、宽度减小。研究的是收缩，摘要未给肘角，不能换算成随角度的隆起量。"
+source = "Akagi et al., 2011, J Physiol Anthropol"
+url = "https://www.jstage.jst.go.jp/article/jpa2/30/4/30_4_169/_article"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "等长收缩时屈肘肌力臂增大，屈肘位更明显，作者归因于收缩增厚。原文页未能打开，只读到检索摘要。"
+source = "In vivo moment arms of three elbow flexors, J Appl Biomech"
+url = "https://pubmed.ncbi.nlm.nih.gov/22431216/"
+
+[[phenomena]]
+id = "triceps-stretch"
+name = "背侧拉长变平"
+structure = "肱三头肌腱、肘后皮肤"
+kind = "stretch-flatten"
+sweep = "flex"
+from = 60
+to = 145
+zones = ["triceps-distal", "elbow-tip"]
+views = ["side", "back"]
+reading = "屈曲时肘后皮肤绷紧，上臂背侧近肘一段变平并连到肘尖，不应在肘尖上方凹进去。"
+current = "上臂背侧直接连接肘尖，深屈时的轮廓连续性需在当前身体上复核。"
+choice = "keep"
+decision = "保留：这决定背轮廓是否连贯。"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "完全屈肘时肱三头肌腱绕鹰嘴卷过。"
+source = "Wikipedia, Elbow"
+url = "https://en.wikipedia.org/wiki/Elbow"
+
+[[phenomena]]
+id = "extended-dimples"
+name = "伸直时肘后小凹"
+structure = "桡骨头旁、尺神经沟"
+kind = "slide"
+sweep = "flex"
+from = 0
+to = 45
+zones = ["elbow-tip"]
+views = ["back"]
+reading = "伸直时鹰嘴外下方有小凹，屈曲后变浅。这是静止形体和动作共同决定的细节。"
+current = "没有这个细节，建议也是舍弃。"
+choice = "drop"
+decision = "舍弃：动画风格和现有网格密度下不值得做。"
+[[phenomena.evidence]]
+strength = "textbook"
+claim = "鹰嘴外侧、外髁下方的凹陷在伸直时最明显；内髁与鹰嘴之间也有一道凹陷。"
+source = "MacEwen, Surgical Anatomy"
+url = "https://bookdome.com/health/anatomy/Surgical-Anatomy/The-Elbow-Surface-Anatomy.html"
+
+[[phenomena]]
+id = "forearm-line"
+name = "提携角收拢"
+structure = "肱尺关节"
+kind = "bone-motion"
+sweep = "flex"
+from = 0
+to = 145
+zones = []
+views = ["front"]
+reading = "伸直时前臂相对上臂略外偏，屈曲时偏角逐渐减小，手朝肩而不是朝外。这由骨骼运动决定，蒙皮修不了。"
+current = "前臂静止相对上臂外偏 4°；屈肘时手的方向仍需看图。肘静止已略屈，表中角度是此基础上的输入。"
+choice = "simplify"
+decision = "先看图：模型提携角已画得很小，没有明显问题就不加骨骼或驱动。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "6 名健康受试者光学动捕，提携角随屈曲角可用线性模型描述，拟合精度高于 94%。摘要未给系数。"
+source = "Zampagni et al., 2006, ISBS"
+url = "https://ojs.ub.uni-konstanz.de/cpa/article/view/204"
+
+# 这些姿势在预期折痕区内的塌陷面属于现象本身，但仍要报告，退化仍由用户认可。
+[[guards]]
+pose = "elbowBend"
+expected_zones = ["inner-fold"]

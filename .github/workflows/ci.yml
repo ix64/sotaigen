@@ -1,0 +1,134 @@
+# CI for sotaigen. Actions are pinned to release commits; the version is recorded beside each SHA.
+# Dependency updates follow the release-age policy in docs/WORKFLOW.md.
+#
+#   test      Linux x86_64 and macOS arm64. A pull request runs the daily tier; main and the nightly
+#             run use sotaigen-dev test-merge. Without Blender, tests marked
+#             `blender` leave the run and the summary says how many; contact bakes (`bake`) never run.
+#   web       the page: types, build, Playwright, in the runner's Google Chrome.
+#   package   the wheels, installed alone in a clean venv, check and write a typical body's GLB.
+#   blender   Linux with Blender 5.2.3 LTS, the oldest supported: the tests marked `blender`.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version-file: pyproject.toml
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version-file: .node-version
+      - run: echo "SOTAIGEN_CACHE=$RUNNER_TEMP/sotaigen" >> "$GITHUB_ENV"
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/sotaigen/solve
+          # Evaluate against the checked-out files, in a step where hashFiles is available.
+          key: ${{ runner.os }}-solve-${{ hashFiles('sotaigen/**/*.py', 'sotaigen/data/**', 'uv.lock', '.python-version') }}
+          restore-keys: ${{ runner.os }}-solve-
+      - run: uv sync --locked --all-extras
+      - run: uv run --locked sotaigen-dev lint
+      - if: github.event_name == 'pull_request'
+        run: uv run --locked sotaigen-dev test
+      - if: github.event_name != 'pull_request'
+        run: uv run --locked sotaigen-dev test-merge
+
+  web:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version-file: pyproject.toml
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version-file: .node-version
+      - uses: pnpm/action-setup@26f6d4f2c533a43e6b5da0b4a5dd983f98f7b49a # v6.0.4
+        with:
+          package_json_file: package.json
+      - run: echo "SOTAIGEN_CACHE=$RUNNER_TEMP/sotaigen" >> "$GITHUB_ENV"
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/sotaigen/solve
+          # Evaluate against the checked-out files, in a step where hashFiles is available.
+          key: ${{ runner.os }}-solve-${{ hashFiles('sotaigen/**/*.py', 'sotaigen/data/**', 'uv.lock', '.python-version') }}
+          restore-keys: ${{ runner.os }}-solve-
+      - run: uv sync --locked --all-extras
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run web-check
+        env:
+          UV_LOCKED: "1"
+
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version-file: pyproject.toml
+      - run: uv build --all-packages -o "$RUNNER_TEMP/dist"
+      - name: install the wheels alone and make a body
+        working-directory: ${{ runner.temp }}
+        run: |
+          uv venv -p "$(cat "$GITHUB_WORKSPACE/.python-version")" clean
+          VIRTUAL_ENV="$PWD/clean" uv pip install dist/sotaigen-*.whl dist/sotaigen_blender-*.whl
+          cp "$GITHUB_WORKSPACE/sotaigen/data/bodies/female/typical/long.json" body.json
+          clean/bin/sotaigen check body.json
+          clean/bin/sotaigen glb body.json body.glb
+          # No Blender here: the .blend is refused with 3, as the command line promises.
+          status=0; BLENDER=/nonexistent clean/bin/sotaigen blend body.json body.blend || status=$?
+          test "$status" = 3
+
+  blender:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      BLENDER_URL: https://download.blender.org/release/Blender5.2/blender-5.2.3-linux-x64.tar.xz
+      BLENDER_SHA256: 78486c018b4443efe5e75ab54c290ed8c15abafd249b862c2c9ce2530a918eec
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version-file: pyproject.toml
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version-file: .node-version
+      - run: echo "SOTAIGEN_CACHE=$RUNNER_TEMP/sotaigen" >> "$GITHUB_ENV"
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/sotaigen/solve
+          # Evaluate against the checked-out files, in a step where hashFiles is available.
+          key: ${{ runner.os }}-solve-${{ hashFiles('sotaigen/**/*.py', 'sotaigen/data/**', 'uv.lock', '.python-version') }}
+          restore-keys: ${{ runner.os }}-solve-
+      - name: Blender, checked against its published SHA-256
+        run: |
+          sudo apt-get update && sudo apt-get install -y libxi6 libxxf86vm1 libxfixes3 libxrender1 libxkbcommon0 libsm6 libgl1 libegl1
+          curl -fsSL -o "$RUNNER_TEMP/blender.tar.xz" "$BLENDER_URL"
+          echo "$BLENDER_SHA256  $RUNNER_TEMP/blender.tar.xz" | sha256sum -c -
+          mkdir "$RUNNER_TEMP/blender" && tar -xJf "$RUNNER_TEMP/blender.tar.xz" -C "$RUNNER_TEMP/blender" --strip-components 1
+          echo "BLENDER=$RUNNER_TEMP/blender/blender" >> "$GITHUB_ENV"
+      - run: uv sync --locked --all-extras
+      - run: uv run --locked sotaigen-dev test-merge -m blender

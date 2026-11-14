@@ -1,0 +1,74 @@
+# 垂臂动态解剖卡：上臂贴近躯干时，前臂和手与髋侧、大腿外侧的关系。取舍由用户决定。
+# 还没解决：放松垂臂之外的复合动作没有接触保证，部分身体的 IPC 烘焙失败。
+region = "arm-hang"
+title = "垂臂：前臂、手与髋侧"
+status = "confirmed"
+scope = "放松站立，上臂从静止的外展收到接近竖直，手掌朝向大腿。骨盆和躯干不动，不看走路摆臂、叉腰或持物。表中角度是程序输入；静止外展在所有身体上都是离竖直 35°，输入 -24 约离竖直 11°。"
+observed = "本卡检查前臂、手与髋侧、大腿的接触；上臂与胸侧由肩腋卡负责。默认隐式场修正与可选 IPC 分别审计，尚无核实过的真人连续体表参照。"
+chain = "肱骨、尺骨和桡骨决定前臂相对上臂的方向；骨盆宽度和髋部、大腿外侧的软组织决定垂下的前臂和手落在哪里。"
+notes = [
+  "目标是支持接近自然垂臂（离竖直约 5°），不通过收窄身体规避接触。",
+  "穿插起点按离竖直每 1° 扫描，只是不同前臂角度之间的比较，不是及格线。",
+  "zones 暂不填：接触发生在两个肢体和躯干之间，不在单个关节的肢段坐标里。"
+]
+
+[joint]
+upper_segment = "trunk"
+lower_segment = "upperArm"
+upper_bone = "upperChest"
+lower_bone = "leftUpperArm"
+focus = "shoulder"
+
+[[sweeps]]
+name = "hang"
+pose = { upperArm = [0, 0, 1] }
+angles = [0, -12, -24, -30, -34]
+
+[[phenomena]]
+id = "carrying-angle"
+name = "前臂静止时略向外偏"
+structure = "肱尺关节、肱骨远端和尺骨近端的骨性形状"
+kind = "bone-motion"
+sweep = "hang"
+from = 0
+to = -34
+zones = []
+views = ["front", "back"]
+reading = "手臂自然下垂、手掌朝前或朝腿时，从正面看前臂相对上臂略向外偏，手离开髋侧。不能反过来向内折，那是肘内翻的方向；也不要外偏到肘部成明显折线。"
+current = "前臂相对上臂外偏 4°（FOREARM_OUT_DEG），方向与真人提携角相同，幅度是风格化选择。垂臂接触由 hip-contact 的修正负责。"
+choice = "simplify"
+decision = "保留真人方向但画小：前臂外偏约 4°，不加骨骼或驱动。屈肘时手是否仍朝肩，另看肘部卡的 forearm-line。"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "MedlinePlus 称手臂下垂、手掌朝前时，前臂和手通常偏离身体约 5–15°，并说这让走路摆臂时前臂越过髋部。只是百科说法，摆臂越髋没有给出研究依据。"
+source = "MedlinePlus, Carrying angle of the elbow - excessive"
+url = "https://medlineplus.gov/ency/article/002316.htm"
+[[phenomena.evidence]]
+strength = "tertiary"
+claim = "Radiopaedia 把提携角定义为前臂轴和肱骨轴之间的少量肘外翻，常见均值女性约 14°、男性约 11°；角度过小、前臂指向身体是畸形方向。"
+source = "Radiopaedia, Carrying angle"
+url = "https://radiopaedia.org/articles/carrying-angle"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "检索摘要显示，多项健康成人测量都报告女性提携角大于男性，但数值随人群和量法（X 线或量角器）相差较大；全文未读。"
+source = "检索摘要：PMC12156686 等健康成人提携角研究"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC12156686/"
+
+[[phenomena]]
+id = "hip-contact"
+name = "前臂和手贴住髋侧与大腿外侧"
+structure = "前臂内侧和手的软组织，髋部和大腿外侧的软组织"
+kind = "contact"
+sweep = "hang"
+from = -24
+to = -34
+zones = []
+views = ["front", "threequarter", "side"]
+reading = "上臂收到接近竖直时，前臂和手可以碰到髋侧和大腿外侧：接触处局部变平，周围平缓让开，不穿过去，也不留下始终等宽的空气缝。离开后恢复原来的轮廓。不能为了让位收窄髋部或把手臂整根推开。接触起点因体型而异。"
+current = "默认使用 hang_field.py 的隐式场垂臂修正，不需烘焙；每侧 GAP 为 2.0 mm，为键间插值留余量，手沿身体场梯度退出以保护指尖。可选 IPC 的 hang.py 从肩腋表边缘延拓到离竖直 5°，前抬域为 0–95°，须检查交付姿势及连续区间。屈肘、扭臂、转手和同侧屈髋时淡出，这些组合可能穿插。已知失败包括 female-heavyarm 的起始腰侧穿插、male-heavyarm 的区间审计穿插、male-wideheavyarm 的肩腋加密不收敛和 female-smallbust 的求解器投影失败；均退回默认修正。实际结果以当前身体审计为准。"
+choice = "simplify"
+decision = "简化：保留局部相压和分开后的恢复，像肩腋卡的 soft-contact；不做皮肤鼓包细节和真实软硬度。放松垂臂的目标是离竖直 5°，逐体型检查实际到达角度。屈肘、上臂扭转或屈髋时修正淡出，这些组合可能穿插。"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "放松垂臂时需检查前臂、手与腰臀的几何接触。没有查到放松垂臂时前臂与髋部接触的测量资料，接触形状是风格取舍。"
+source = "项目视觉目标；项目渲染"

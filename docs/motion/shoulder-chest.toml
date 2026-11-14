@@ -1,0 +1,342 @@
+# 肩腋／胸侧动态解剖卡；取舍由用户决定，先不绑定接触求解技术。
+# 还没解决：高侧举的襞缘、肩顶与皮肤过渡仍部分达成；乳房随动幅度未标定；当前接触表尚需完整烘焙和交付验证。
+region = "shoulder-chest"
+title = "肩腋与胸侧"
+status = "confirmed"
+scope = "放松状态下的前伸、侧举与回落，到上半身目标角度（侧举 72°、T 姿势 55°、前抬 95°）和手摸头、手靠近脸的复合姿势；观察腋襞、胸侧、乳房外上缘、肩顶轮廓和肩带。暂不研究主动用力鼓肌、惯性晃动或衣物。表中角度是程序输入，不是临床肩关节角度。"
+observed = "12 个典型身体（女、男各 chibi compact slim long balanced rounded），默认雕塑修正，不烘焙 IPC：目标角度和复合姿势；shoulder-top、deltoid-raise、cap-arm-transition 在肩带前抬上抬之后重看过。正常动作的双侧 IPC 接触表已接入生成器、编辑器和导出，默认不开启，只在选了 IPC 的导出里烘焙。复合欧拉角引起上臂进入躯干是已知问题，详情见 docs/parts/shoulder-axilla.md。Q版和小巧胸量为零，不能拿它们判断乳房随动。"
+chain = "胸廓、锁骨、肩胛骨和肱骨共同决定肩腋位置；胸大肌形成前侧边界，背阔肌／大圆肌形成后侧边界；乳房包膜及其附着与胸肌分开看。"
+notes = [
+  "十三项的取舍都已定：肩峰浅凹和三角肌聚拢做在修正形状上，不加肩胛骨；手到头、手到脸用按身体解的触点（docs/systems/touch.md）。",
+  "12 个典型身体的目标角度诊断、按机制的分类和技术方案在 docs/parts/shoulder-axilla.md 的“上半身目标角度的诊断”；图用 scripts/upper_body_study.py 出。",
+  "本卡在身体坐标系里保留胸廓看肩腋；肘卡的单铰链立直、隐藏躯干及沿肢段半径量法不适用于此处。",
+  "zones 暂不填：没有把胸廓硬塞进肢段圆柱坐标。用 sotaigen_dev/motion/shoulder_sheet.py（motion sweep shoulder-chest）观察完整上躯干、骨性参照及皮肤相对胸廓的位移。",
+  "文献给出结构和现象边界；动画风格的强弱与简化方式已定，属于 decision，不是假称人体测量结论。",
+  "仰卧乳房研究不能提供本项目站姿小胸体型的默认位移量，也不能证明应在某个固定输入角度开始接触。"
+]
+
+[joint]
+upper_segment = "trunk"
+lower_segment = "upperArm"
+upper_bone = "upperChest"
+lower_bone = "leftUpperArm"
+focus = "shoulder"
+
+[[sweeps]]
+name = "reach"
+pose = { upperArm = [1, 0, 0] }
+angles = [0, 35, 60, 75, 95]
+
+[[sweeps]]
+name = "spread"
+pose = { upperArm = [0, 0, 1] }
+angles = [-24, 0, 35, 72, 110]
+
+# The upper-body targets: T pose at 55, the clean-range target 72.
+[[sweeps]]
+name = "target"
+pose = { upperArm = [0, 0, 1] }
+angles = [0, 30, 45, 55, 72]
+
+# The hand on top of the head: raised sideways, rolled out (local Y -90 at 110) and the elbow bent,
+# all scaled together. A compound Euler input.
+[[sweeps]]
+name = "head-top"
+pose = { leftUpperArm = [0, -0.8182, 1], leftLowerArm = [1, 0, 0] }
+angles = [0, 55, 110]
+
+[[phenomena]]
+id = "anterior-fold"
+name = "前腋襞保持有厚度的边界"
+structure = "胸大肌外侧缘及其覆盖皮肤"
+kind = "stretch-flatten"
+sweep = "spread"
+from = -24
+to = 110
+zones = []
+views = ["front", "threequarter", "side"]
+reading = "手臂离开胸侧时，胸到上臂之间仍能读出一条有厚度的前缘；腋窝展开后不应成为从胸侧拖到肘部的长蹼，也不把前腋襞做成刻在皮肤上的硬槽。伸回时边界收拢，不能跳位置。"
+current = "部分达到。前缘可以辨认；侧举输入 72/110° 时，斜前视图的前缘与胸侧仍连成偏宽、偏薄的过渡面，高侧举的长斜面还在。前伸 60° 后，上胸至肩前出现较长的直斜折线。肩部用前后独立的内部支承加接触，前缘局部略饱满。12 个典型身体侧举 72° 斜前视图腋前有一条斜线，只用线性蒙皮时没有，所以它来自修正形状，不来自权重（推测是保面积约束保住了折叠两侧，没有单独验证）。"
+choice = "keep"
+decision = "保留，但用一条连续圆润的体块边缘表达；不刻肌束、不加固定深槽。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "2016 年组织学研究含 14 个前腋襞标本，认为它沿胸大肌外侧形成，组织结构不同于固定附着的皮肤 crease；这是结构证据，未量随抬臂角度的形状。"
+source = "Histological Comparison of the Human Trunk Skin Creases: The Role of the Elastic Fiber Component, 2016"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC4815355/"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "40 具尸体、80 块胸大肌的解剖研究记录锁骨部、胸肋部等起点及肱骨止点和变异；支持胸壁至肱骨的结构连接，不给出风格化腋襞宽度或动态增厚量。"
+source = "Haładaj et al., 2019"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC6466946/"
+
+[[phenomena]]
+id = "pectoral-follow"
+name = "胸肌随抬臂拉长、变平"
+structure = "胸大肌胸肋部及其下缘、覆盖皮肤"
+kind = "stretch-flatten"
+sweep = "spread"
+from = 0
+to = 110
+zones = []
+views = ["front", "threequarter"]
+reading = "手臂抬起时，胸肌外侧随肱骨上的止点向上、向外走，下缘从胸骨旁斜向上通到前腋襞，整块变平；不能整块留在肋骨上、下缘仍是一道横棱。手臂放下时回到静止的形状。前伸时同理，下缘随上臂向上转。"
+current = "部分达到（`sotaigen/corrective/pectoral.py`）。厚度按胸骨处 0、外端 0.6 的比例跟随肱骨上止点（关节下 0.12 T）的位移读取，被带走的部分每四分之一圈变薄 35%，并按手臂转角在 0.06 T 内取平均。下缘在侧举、上举、前伸时斜向腋前；取平均去掉了下缘斜过网格时的锯齿，代价是高举时下缘变软。只在 `male-balanced`（12 mm）和一个 22 mm 胸肌的身体上看过；只覆盖肩部修正采样的姿势（垂臂、前伸、侧举），扭转随修正一起淡出。"
+choice = "simplify"
+decision = "胸肌随抬臂，简化成厚度场跟随止点平移，不模拟肌束和体积。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "40 具尸体、80 块胸大肌的解剖研究记录锁骨部、胸肋部起点及向肱骨的汇合止点；支持外侧纤维随肱骨移动、绕胸骨端转动的方向，不给出抬臂时的体表位移量。"
+source = "Haładaj et al., 2019"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC6466946/"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "项目渲染：胸肌不跟随时，`strength` 档在 armsUp、armsHigh 时下缘仍是横向的 V 形棱，留在肋骨上。"
+source = "项目渲染"
+
+[[phenomena]]
+id = "posterior-fold"
+name = "后腋襞与腋窝空间"
+structure = "背阔肌、大圆肌、腋部筋膜与覆盖皮肤"
+kind = "stretch-flatten"
+sweep = "spread"
+from = -24
+to = 110
+zones = []
+views = ["back", "backquarter", "side"]
+reading = "背面也应有独立的后缘，与前缘围出腋窝；随侧举展开，但不变成前后一样的对称薄片。不能仅正面无破绽，后面仍挂着长蹼。"
+current = "部分达到。高侧举后缘与腋底仍连成宽斜面，独立厚度不清楚，上臂内侧凹陷偏深。局部平滑可形成后腋细线，SPREAD_STRENGTH 调整其强度；肩带采用锁骨协同，不含独立肩胛运动。"
+choice = "simplify"
+decision = "简化保留后缘和腋窝的凹空间，不刻背阔肌／大圆肌之间的小分界。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Oh 等通过手术观察及 9 具防腐标本研究背阔肌筋膜关系，描述从后腋襞向下延伸的可动前缘及其与邻近肌肉的关系；未提供放松抬臂的体表位移曲线。"
+source = "Oh et al., Anatomical Study of the Close Association between Latissimus Dorsi and Surrounding Muscles, 2022"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC9507577/"
+
+[[phenomena]]
+id = "soft-contact"
+name = "上臂与胸侧相压后分离"
+structure = "上臂内侧软组织、胸侧及乳房外侧软组织"
+kind = "contact"
+sweep = "reach"
+from = 0
+to = 95
+zones = []
+views = ["front", "threequarter", "side"]
+reading = "靠近时局部接触面变平，周围体块平缓让位；分开后恢复连续轮廓。既不穿过去留尖缝，也不留下始终等宽的空气缝；不能为了让位把整颗乳房推走。接触起点取决于体型和姿势，不要求各体型同角度接触。"
+current = "前后支承与可选 IPC 接触已接入生成器和运行时。当前形体与摆动采样仍需完整烘焙、实际 GLB 与插值区间审计。收臂接触线的小折角尚待视觉验收；复合扭转的接触缺陷见 docs/parts/shoulder-axilla.md。"
+choice = "simplify"
+decision = "简化：保留局部相压和离开后的恢复，不追求皮肤鼓包的写实细节或真实材料软硬度。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Richey 等研究 6 名成人、10 个有效乳房的仰卧手臂位置变化；作者指出体积较大、位置较外侧的乳房在手臂下垂时受上臂接触影响。不能外推为站姿小胸的统一接触角度或压入量。"
+source = "Richey et al., Impact of deformation on a supine-positioned image-guided breast surgery approach, 2021"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC9237955/"
+
+[[phenomena]]
+id = "breast-follow"
+name = "乳房外上缘随动，主体仍独立"
+structure = "乳房浅筋膜系统、周边附着及胸壁表面"
+kind = "slide"
+sweep = "spread"
+from = 0
+to = 110
+zones = []
+views = ["front", "threequarter", "side"]
+reading = "观察外上缘与胸侧的牵动是否比乳房内下部明显；主体不应随上臂整块刚性转动，也不应像钉在胸廓上的完全静止物。先看形状变化和分区差异，不预设移动多少毫米或始终向同一方向。"
+current = "有轻微分区随动，幅度是否合适尚未判断。应跟踪当前身体前部和外上部的同一材料点；它们不是临床乳房地标，不能代表全区域。缺少站姿真人运动参照。"
+choice = "keep"
+decision = "保留轻微、分区不同的随动；主体稳定。不做惯性晃动或主动用力导致的隆起。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Richey 等在仰卧条件下观察到手臂位置改变伴随乳房非刚性形变，外上象限位移相对其他区域更大；研究乳房体积 459–1230 cm³，不能把幅度或方向直接套到本模型。"
+source = "Richey et al., 2021"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC9237955/"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Rehnke 等对 6 具新鲜女性尸体的 12 个乳房解剖，提出包绕乳房的筋膜／脂肪系统和周边胸壁附着；支持乳房与胸肌分层，不是动态滑动量测量。"
+source = "Rehnke et al., Anatomy of the Superficial Fascia System of the Breast, 2018"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC6211786/"
+
+[[phenomena]]
+id = "skin-transition"
+name = "胸侧皮肤连续过渡与短褶"
+structure = "肩腋皮肤、浅筋膜、胸壁附着区"
+kind = "crease"
+sweep = "reach"
+from = 0
+to = 95
+zones = []
+views = ["front", "threequarter", "backquarter"]
+reading = "相压时可以有短而柔和的褶线，展开后变浅；不能整圈勒痕、突然一条深槽或一块皮肤被拖成长薄片。抬臂不等于整片前胸统一拉伸。"
+current = "部分达到。前伸有随角度显现的褶线，但 35–75° 肩前的斜折线较直、较长；高侧举时腋底内收集中，肩上抬升／切向位移更显著。哪些大褶应保留，需结合整体轮廓取舍，不能由保面积或防穿插约束决定。前抬时上臂顶和斜方肌交界处的小钩，肩带前抬上抬之后到 95° 没了（见 cap-arm-transition）；斜前沿上臂顶的长线是上臂盖在胸前的轮廓线，只用线性蒙皮也有。"
+choice = "simplify"
+decision = "简化：只保留帮助读出接触与展开的一两处大褶，舍弃密集细纹。"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "Ge 等 2017 年原始研究的 PubMed 摘要报告胸骨皮肤在所测前屈／外展动作出现压缩应变；全文未读到，只用于反对‘整片前胸一律拉伸’的假设，不把胸骨结果当腋窝应变。"
+source = "Ge, Sfara and Hians, Skin deformation during shoulder movements and upper extremity activities, 2017（仅摘要）"
+url = "https://pubmed.ncbi.nlm.nih.gov/28528237/"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "2016 年组织学研究区分前腋襞 fold 与具有较强组织附着的 crease；据此不能把所有可见暗线都解释为固定皮肤沟。研究未规定动画风格褶线数量。"
+source = "Histological Comparison of the Human Trunk Skin Creases, 2016"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC4815355/"
+
+[[phenomena]]
+id = "shoulder-girdle"
+name = "高抬臂时肩带跟上"
+structure = "胸锁关节、肩锁关节、肩胛胸廓运动与盂肱关节"
+kind = "bone-motion"
+sweep = "spread"
+from = 35
+to = 110
+zones = []
+views = ["front", "back", "side"]
+reading = "抬高时观察锁骨端、肩峰区域和上臂根部是否共同改变位置；不能让肩部钉住，再由腋窝皮肤独自承担全部拉长。与局部接触的观感分开判断。"
+current = "Shoulder 骨从胸骨旁连接肩关节；SHOULDER_RHYTHM 为 0.2，前抬另有 0.1 的 FORWARD_LIFT。背后肩胛区跟胸廓，没有独立肩胛运动，也没有完整人体轨迹标定。"
+choice = "keep"
+decision = "保留现有肩带协同；先观察它与腋襞的整体关系，不扩充骨架、不套固定运动比例。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Ludewig 等对 12 名无肩部异常成人，将传感器固定到锁骨、肩胛骨、肱骨骨针，测量三个平面的抬臂／落臂；观察到多关节三维协同。它不支持所有体型、角度都采用固定 2:1 比例。"
+source = "Ludewig et al., Motion of the Shoulder Complex During Multiplanar Humeral Elevation, 2009"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC2657311/"
+
+[[phenomena]]
+id = "shoulder-cap"
+name = "前抬时肩头的体积分配"
+structure = "三角肌（锁骨部、肩峰部、肩胛冈部）、肱骨头与覆盖皮肤"
+kind = "stretch-flatten"
+sweep = "reach"
+from = 35
+to = 95
+zones = []
+views = ["front", "threequarter", "backquarter"]
+reading = "手臂前抬时，肩头的体积是否随肱骨方向重新分配，而不是一颗不变的球挂在上臂根部。看正面和斜前的外轮廓、顶部走向，以及肩头与上臂粗细的比例。站姿肩形随之变化时也要一起看。"
+current = "部分达到。三角肌沿上臂延长，肩头跟随区下移且边缘平滑；高前抬仍需检查偏圆轮廓、网格折角和局部穿插，不能以单一视角判断。"
+choice = "simplify"
+decision = "简化：肩头体积沿上臂方向拉长，顶部略平，仍是柔和的圆肩；不刻肌束，不做用力鼓肌。改三角肌的静态形状，站姿肩形和规格读数可以随之变化。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Leijnse 等解剖 8 个肩，描述三角肌起自锁骨远端三分之一、肩峰和肩胛冈，止于肱骨外侧的腱膜结构，并指出肌腱板在抬臂时随之转动。这只支持结构分部；文中没有体表轮廓随抬臂变化的内容。"
+source = "Leijnse, Han and Kwon, Morphology of deltoid origin and end tendons - a generic model, 2008"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC2666142/"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "前抬时的肩头圆度按视觉目标判断。尚无前屈时三角肌体表形状的测量或可核对的艺用解剖资料，所以目标形状是风格取舍，不是人体测量结论。"
+source = "项目视觉目标；项目渲染（uv run sotaigen-dev motion sweep shoulder-chest 的 sweep-reach.png）"
+
+[[phenomena]]
+id = "cap-arm-transition"
+name = "肩头到上臂的过渡"
+structure = "三角肌下行部分与上臂软组织之间的体表过渡"
+kind = "stretch-flatten"
+sweep = "reach"
+from = 35
+to = 95
+zones = []
+views = ["threequarter", "backquarter", "side"]
+reading = "从肩头沿上臂看，轮廓应连续变细。可以有浅而宽的过渡，不应出现一级台阶或硬折痕。伸回时过渡同样要平顺。"
+current = "部分达到，没有完全抹平。后斜 60–75° 的台阶基本消失；后斜 95° 顶部的折口变浅但还在，斜前的 S 形转折线变弱但还在。静态形状和权重到这里基本用尽：把跟随区再下移，前抬更顺，但侧举时肩颈之间会出现硬尖。侧举 110° 斜前有一个小 V 形角。肩带前抬上抬（FORWARD_LIFT）之后，12 个典型身体侧面和斜前的小钩到 95° 没了；斜前的长线是上臂盖在胸前的轮廓线，只用线性蒙皮也有，保留，线尾接到肩头外轮廓上；男体侧面肋骨上 toon 小齿变少；130° 线尾硬线和 toon 碎块还在。"
+choice = "simplify"
+decision = "简化：完全抹平台阶和折口，用连续收窄表达肩头到上臂，不保留三角肌止点的痕迹。"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "肩头到上臂的连续过渡是项目视觉目标，评估时需检查后斜视角的台阶。没有查到规定这段过渡形状的测量资料。"
+source = "项目视觉目标；项目渲染（uv run sotaigen-dev motion sweep shoulder-chest 的 sweep-reach.png）"
+
+[[phenomena]]
+id = "scapular-rotation"
+name = "抬臂时肩胛上回旋、锁骨上抬后缩"
+structure = "胸锁关节、肩锁关节、肩胛胸壁滑动；肩胛冈、肩峰、肩胛骨外侧缘（后腋襞的底）"
+kind = "bone-motion"
+sweep = "target"
+from = 30
+to = 72
+zones = []
+views = ["front", "back", "backquarter"]
+reading = "侧举和前抬到水平以上时，肩峰和整个肩头一起上移，肩胛骨下角向外转，后腋襞的底随肩胛外侧缘外移，所以后腋襞是一条随手臂转的圆边，不是从胸廓拉到上臂的一片斜面。颈根到肩头的斜方肌线随锁骨上抬变陡，但仍连续，不在颈根折成 V。前抬时肩带同样上抬，不只是水平前伸。"
+current = "采用锁骨固定 20% 联动，前抬另上抬输入的 10%，上臂补偿同量。背后肩胛区和后腋襞底跟胸廓；高侧举长斜面仍是限制。"
+choice = "keep"
+decision = "不加独立肩胛骨，保持锁骨固定 20% 联动，前抬另上抬 10%。这套简化肩带协同尚未标定完整人体轨迹；后腋长斜面仍需评估（docs/parts/shoulder-axilla.md 的“肩带简化”）。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Ludewig 等 12 名无肩病受试者，骨针传感器，三个平面抬臂：胸锁关节上抬 11→17°、后缩 23→39°、后旋 0→31°；肩胛上回旋 11→50°，后倾 −13→8°；屈曲和冠状面外展的上回旋只差 2–3°（60°、90°、120°）。读到 PMC 页面正文，逐角度的数在图里，未取。"
+source = "Ludewig et al., Motion of the Shoulder Complex During Multiplanar Humeral Elevation, J Bone Joint Surg Am 2009"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC2657311/"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Scibek 与 Carcia 13 名健康大学生，肩胛平面静止抬臂，改装倾角仪量上回旋：0–30° 0.7°（肩胛贡献 2.5%），30–60° 11.0°，60–90° 8.5°，90–120° 15.8°（贡献约 53%），0–120° 合计 36.0°，盂肱：肩胸 2.34:1。比例随角度变，不是常数。读到 PMC 页面正文的表 1。"
+source = "Scibek and Carcia, Assessment of scapulohumeral rhythm for scapular plane shoulder elevation using a modified digital inclinometer, World J Orthop 2012"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC3377910/"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "系统综述摘要：贴在肩胛冈与肩峰交界的体表标记簇在上臂抬到 90–100° 以下时与触诊的肩胛姿态差约 5°（屈曲）到 7°（外展），以上要再标定。支持肩峰上的皮肤随肩胛走、不随肱骨走；只读到摘要。"
+source = "Lempereur et al., Validity and reliability of 3D marker based scapular motion analysis: a systematic review, J Biomech 2014"
+url = "https://doi.org/10.1016/j.jbiomech.2014.04.028"
+
+[[phenomena]]
+id = "shoulder-top"
+name = "侧举时颈根—肩峰—肩头的顶轮廓"
+structure = "斜方肌上部、锁骨外端与肩峰、三角肌中部的上缘及覆盖皮肤"
+kind = "stretch-flatten"
+sweep = "target"
+from = 0
+to = 72
+zones = []
+views = ["front", "threequarter"]
+reading = "正面看从颈根经斜方肌到肩峰再到上臂外侧是一条连续的线。手臂抬起后肩峰处可以有一个浅凹（三角肌在肩峰下缩短聚拢），但不能有多边形的小凸、台阶或折角，颈根也不能折成 V。T 姿势 55° 时尤其要干净。"
+current = "部分达到。静止肩峰小角已磨掉（docs/parts/shoulder-axilla.md 的“肩峰小角”）。手摸头顶和侧举 90° 颈根成圆的 U，没有肩头平台（修正淡出放宽，“手摸头顶的修正”）；肩峰浅凹做在修正形状上（sotaigen/corrective/deltoid.py，35° 为 0、72° 一半、110° 全量，深 0.014 T、宽 0.09 T，即 HOLLOW_DEPTH、HOLLOW_WIDTH）。看图：男体 72–90° 肩顶的一级台阶基本抹平；slim、chibi、compact 的弯还在 2–3 条边内转完，55° 的小凸变低没有消失。"
+choice = "keep"
+decision = "磨掉静止形体的肩峰小角；高举（72° 以上）允许肩峰处一个宽而浅的凹，表达三角肌聚拢，由随侧举的修正形状做，深 0.014 T、宽 0.09 T。"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "同 scapular-rotation：肩峰上的体表标记簇在 90–100° 以下随肩胛走，所以肩峰处的皮肤应随肩带上移，而不是随肱骨转到上臂上；只读到摘要。"
+source = "Lempereur et al., J Biomech 2014"
+url = "https://doi.org/10.1016/j.jbiomech.2014.04.028"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "项目渲染：12 个典型身体侧举 30–72° 的正面和斜前特写，以及过肩关节、沿抬臂平面的截面；没有找到侧举时肩顶体表轮廓的人体测量或可核对的艺用解剖资料，浅凹与否是风格取舍。"
+source = "项目渲染（scripts/upper_body_study.py sheet、section）"
+
+[[phenomena]]
+id = "deltoid-raise"
+name = "侧举时三角肌缩短，后部下缘柔和"
+structure = "三角肌中部和后部、肱骨大结节上的覆盖组织"
+kind = "stretch-flatten"
+sweep = "target"
+from = 30
+to = 72
+zones = []
+views = ["backquarter", "back", "front"]
+reading = "侧举时三角肌变短变厚，体积向肩峰下靠拢，后部下缘在后斜方读成一条柔和的弧。toon 下明暗交界在肩后是平顺的曲线，不碎成锯齿，也不在上臂上出现条纹。"
+current = "部分达到。朝后朝外的三角肌皮肤随侧举朝关节滑、微隆（sotaigen/corrective/deltoid.py），朝上的不动，免得在肩顶上造新台阶。看图：男体肩后 toon 暗块边缘 55–90° 仍有小锯齿，72–90° 上臂的条纹还在：网格列数少这一层没有处理。"
+choice = "keep"
+decision = "保留三角肌缩短聚拢，和 shoulder-top 的浅凹一起做。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Leijnse 等解剖 8 个肩，三角肌起于锁骨外三分之一、肩峰和肩胛冈，止于肱骨外侧腱膜，抬臂时腱板随之转动；只支持结构分部，没有体表形状随角度的数据。"
+source = "Leijnse, Han and Kwon, Morphology of deltoid origin and end tendons - a generic model, 2008"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC2666142/"
+
+[[phenomena]]
+id = "hand-head-contact"
+name = "手摸头、手靠近脸时手停在皮肤上"
+structure = "手掌和手指、面颊、下颌、头发下的颅顶皮肤"
+kind = "contact"
+sweep = "head-top"
+from = 0
+to = 110
+zones = []
+views = ["front", "threequarter"]
+reading = "手放到头顶、面颊或嘴边时，手指和手掌贴在皮肤上：接触处可以略压平，不能穿进脸或头，也不留一指宽的空气缝。这是复合姿势，肩腋、肘和手腕同时到大角度，各自的现象仍按各自的卡看。"
+current = "编辑器与 .blend 使用按身体求解的触点，见 docs/systems/touch.md。当前 YZX 极限下的全部触点需复核；手与皮肤留距，无相压解算，肘弯接触另由肘卡评估。当前 GLB 运行时未接入触点求解；双手摸头顶的镜像解会撞手，尚未提供该姿势；肘的僵硬仍是已知缺陷。"
+choice = "simplify"
+decision = "编辑器和 `.blend` 给手到头、手到脸的触点，按身体解关节角（IK），接触简化为留距，不做软组织形变。五个触点的名字、集合和手上的取点进对外约定；后脑正中改成耳后；`chibi`、`compact` 的头顶接触允许指尖碰外侧。当前能力和姿势缺陷记在 current，接入方式见 docs/systems/touch.md。"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "Gates 等测八项日常上肢动作实际用到的范围：上臂抬起 0–108°、肘屈 0–121°（数值见 sotaigen/data/range-of-motion.json 的 functional）。只读到摘要，没核对八项是否含手到头、手到嘴；只用来说明日常动作的上臂抬起不超过约 108°，手摸头顶这类姿势在它的上沿。"
+source = "Gates et al., Range of motion requirements for upper-limb activities of daily living, Am J Occup Ther 2016（摘要）"
+url = "https://doi.org/10.5014/ajot.2016.015487"

@@ -1,0 +1,17 @@
+{
+  "name": "sotaigen-dev",
+  "private": true,
+  "packageManager": "pnpm@12.14.0",
+  "engines": {
+    "node": ">=24.22 <25"
+  },
+  "scripts": {
+    "web-build": "web/node_modules/.bin/vite build --config web/vite.config.mjs --logLevel warn",
+    "editor": "pnpm run web-build && node web/serve.mjs",
+    "editor-dev": "node web/serve.mjs --dev",
+    "typecheck": "uv run sotaigen-dev schema && node web/scripts/paraglide.mjs && node web/scripts/prepare-types.mjs && web/node_modules/.bin/tsc -p web/tsconfig.json",
+    "web-check": "pnpm run typecheck && pnpm run web-build && uv run sotaigen-dev export female-long && node --test web/tests/messages.test.mjs web/runtime/driver.test.mjs && web/node_modules/.bin/playwright test --config web/playwright.config.ts",
+    "runtime-check": "pnpm run web-build && uv run scripts/runtime_check.py",
+    "editor-sweep": "pnpm run web-build && node web/editor/sweep.mjs"
+  }
+}

@@ -1,0 +1,34 @@
+[project]
+name = "sotaigen-blender"
+# Always sotaigen's version: tests/test_package.py holds the two together.
+version = "0.1.0"
+description = "The Blender scripts that write sotaigen's rigged .blend files and swap their heads"
+readme = "README.md"
+authors = [{ name = "Aerix" }]
+keywords = ["anime", "base mesh", "character", "rigging", "blender"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+]
+requires-python = ">=3.14,<3.15"
+# They import Blender's Python API, so this package is GPL; sotaigen itself is Apache-2.0.
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/ix64/sotaigen"
+Repository = "https://github.com/ix64/sotaigen"
+Issues = "https://github.com/ix64/sotaigen/issues"
+
+[build-system]
+# Same version as tool.uv.required-version in the root pyproject.toml: uv then uses its bundled backend and downloads nothing.
+requires = ["uv_build==0.13.6"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "sotaigen_blender"

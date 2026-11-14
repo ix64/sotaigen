@@ -1,0 +1,74 @@
+{
+ "commands": {
+  "blend": [
+   "file",
+   "out",
+   [
+    "--t-pose"
+   ],
+   [
+    "--arm-abduction"
+   ],
+   [
+    "--ankle-spacing"
+   ],
+   [
+    "--no-palms-down",
+    "--palms-down"
+   ],
+   [
+    "--no-straight-arms",
+    "--straight-arms"
+   ],
+   [
+    "--past-limits"
+   ],
+   [
+    "--for-head-swap"
+   ]
+  ],
+  "check": [
+   "file"
+  ],
+  "glb": [
+   "file",
+   "out"
+  ],
+  "scale": [
+   "file",
+   "out",
+   [
+    "--stature"
+   ],
+   [
+    "--heads"
+   ],
+   [
+    "--torso"
+   ]
+  ],
+  "swap-head": [
+   "body",
+   "head",
+   "out",
+   [
+    "--scale"
+   ],
+   [
+    "--parts-only"
+   ],
+   [
+    "--keep-parts"
+   ],
+   [
+    "--report"
+   ]
+  ]
+ },
+ "exitCodes": {
+  "done": 0,
+  "refused": 1,
+  "usage": 2,
+  "missing": 3
+ }
+}

@@ -1,0 +1,46 @@
+# Licenses by path, in the REUSE format (https://reuse.software/spec-3.3/). A file's own SPDX header
+# wins over these ("closest"); where two tables match a path, the later one wins.
+version = 1
+
+# Code, configuration and the documentation. The docs are Apache-2.0 on purpose, as the code is: what
+# they show is meant to be copied into code, and the license lets them be translated and changed.
+[[annotations]]
+path = "**"
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 The sotaigen contributors"
+SPDX-License-Identifier = "Apache-2.0"
+
+# Data: the typical and test bodies' specs, the sourced ranges of motion and the sliders. Generated
+# bodies carry no license of this repository at all.
+[[annotations]]
+path = ["sotaigen/data/**"]
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 The sotaigen contributors"
+SPDX-License-Identifier = "CC0-1.0"
+
+# The template, cut from Blender Studio's CC0 base mesh (template/PROVENANCE.md).
+[[annotations]]
+path = ["sotaigen/data/template/**"]
+precedence = "closest"
+SPDX-FileCopyrightText = ["Blender Studio, Human Base Meshes v1.4.1", "2026 The sotaigen contributors"]
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "motions/clips/**"
+precedence = "closest"
+SPDX-FileCopyrightText = "CMU Graphics Lab Motion Capture Database"
+SPDX-License-Identifier = "LicenseRef-CMU-Mocap"
+
+# shadcn/ui components, copied into the editor and edited there.
+[[annotations]]
+path = "web/src/components/ui/**"
+precedence = "closest"
+SPDX-FileCopyrightText = ["2023 shadcn", "2026 The sotaigen contributors"]
+SPDX-License-Identifier = "MIT"
+
+# Code that imports Blender's Python API is GPL-3.0-or-later, and says so in its first line too.
+[[annotations]]
+path = "blender/**"
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 The sotaigen contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"

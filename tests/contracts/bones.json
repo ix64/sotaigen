@@ -1,0 +1,306 @@
+[
+ {
+  "name": "root",
+  "parent": null
+ },
+ {
+  "name": "hips",
+  "parent": "root"
+ },
+ {
+  "name": "spine",
+  "parent": "hips"
+ },
+ {
+  "name": "chest",
+  "parent": "spine"
+ },
+ {
+  "name": "upperChest",
+  "parent": "chest"
+ },
+ {
+  "name": "neck",
+  "parent": "upperChest"
+ },
+ {
+  "name": "head",
+  "parent": "neck"
+ },
+ {
+  "name": "leftShoulder",
+  "parent": "upperChest"
+ },
+ {
+  "name": "leftUpperArm",
+  "parent": "leftShoulder"
+ },
+ {
+  "name": "leftLowerArm",
+  "parent": "leftUpperArm"
+ },
+ {
+  "name": "leftHand",
+  "parent": "leftLowerArm"
+ },
+ {
+  "name": "leftPalmCup",
+  "parent": "leftHand"
+ },
+ {
+  "name": "leftThumbMetacarpal",
+  "parent": "leftHand"
+ },
+ {
+  "name": "leftThumbProximal",
+  "parent": "leftThumbMetacarpal"
+ },
+ {
+  "name": "leftThumbDistal",
+  "parent": "leftThumbProximal"
+ },
+ {
+  "name": "leftIndexProximal",
+  "parent": "leftHand"
+ },
+ {
+  "name": "leftIndexIntermediate",
+  "parent": "leftIndexProximal"
+ },
+ {
+  "name": "leftIndexDistal",
+  "parent": "leftIndexIntermediate"
+ },
+ {
+  "name": "leftMiddleProximal",
+  "parent": "leftHand"
+ },
+ {
+  "name": "leftMiddleIntermediate",
+  "parent": "leftMiddleProximal"
+ },
+ {
+  "name": "leftMiddleDistal",
+  "parent": "leftMiddleIntermediate"
+ },
+ {
+  "name": "leftRingProximal",
+  "parent": "leftPalmCup"
+ },
+ {
+  "name": "leftRingIntermediate",
+  "parent": "leftRingProximal"
+ },
+ {
+  "name": "leftRingDistal",
+  "parent": "leftRingIntermediate"
+ },
+ {
+  "name": "leftLittleProximal",
+  "parent": "leftPalmCup"
+ },
+ {
+  "name": "leftLittleIntermediate",
+  "parent": "leftLittleProximal"
+ },
+ {
+  "name": "leftLittleDistal",
+  "parent": "leftLittleIntermediate"
+ },
+ {
+  "name": "leftUpperLeg",
+  "parent": "hips"
+ },
+ {
+  "name": "leftLowerLeg",
+  "parent": "leftUpperLeg"
+ },
+ {
+  "name": "leftFoot",
+  "parent": "leftLowerLeg"
+ },
+ {
+  "name": "leftToes",
+  "parent": "leftFoot"
+ },
+ {
+  "name": "leftUpperArmHalf",
+  "parent": "leftShoulder"
+ },
+ {
+  "name": "leftLowerArmHalf",
+  "parent": "leftUpperArm"
+ },
+ {
+  "name": "leftUpperLegHalf",
+  "parent": "hips"
+ },
+ {
+  "name": "leftLowerLegHalf",
+  "parent": "leftUpperLeg"
+ },
+ {
+  "name": "leftHandHalf",
+  "parent": "leftLowerArm"
+ },
+ {
+  "name": "leftUpperArmTwist1",
+  "parent": "leftUpperArm"
+ },
+ {
+  "name": "leftUpperArmTwist2",
+  "parent": "leftUpperArm"
+ },
+ {
+  "name": "leftLowerArmTwist1",
+  "parent": "leftLowerArm"
+ },
+ {
+  "name": "leftLowerArmTwist2",
+  "parent": "leftLowerArm"
+ },
+ {
+  "name": "rightShoulder",
+  "parent": "upperChest"
+ },
+ {
+  "name": "rightUpperArm",
+  "parent": "rightShoulder"
+ },
+ {
+  "name": "rightLowerArm",
+  "parent": "rightUpperArm"
+ },
+ {
+  "name": "rightHand",
+  "parent": "rightLowerArm"
+ },
+ {
+  "name": "rightPalmCup",
+  "parent": "rightHand"
+ },
+ {
+  "name": "rightThumbMetacarpal",
+  "parent": "rightHand"
+ },
+ {
+  "name": "rightThumbProximal",
+  "parent": "rightThumbMetacarpal"
+ },
+ {
+  "name": "rightThumbDistal",
+  "parent": "rightThumbProximal"
+ },
+ {
+  "name": "rightIndexProximal",
+  "parent": "rightHand"
+ },
+ {
+  "name": "rightIndexIntermediate",
+  "parent": "rightIndexProximal"
+ },
+ {
+  "name": "rightIndexDistal",
+  "parent": "rightIndexIntermediate"
+ },
+ {
+  "name": "rightMiddleProximal",
+  "parent": "rightHand"
+ },
+ {
+  "name": "rightMiddleIntermediate",
+  "parent": "rightMiddleProximal"
+ },
+ {
+  "name": "rightMiddleDistal",
+  "parent": "rightMiddleIntermediate"
+ },
+ {
+  "name": "rightRingProximal",
+  "parent": "rightPalmCup"
+ },
+ {
+  "name": "rightRingIntermediate",
+  "parent": "rightRingProximal"
+ },
+ {
+  "name": "rightRingDistal",
+  "parent": "rightRingIntermediate"
+ },
+ {
+  "name": "rightLittleProximal",
+  "parent": "rightPalmCup"
+ },
+ {
+  "name": "rightLittleIntermediate",
+  "parent": "rightLittleProximal"
+ },
+ {
+  "name": "rightLittleDistal",
+  "parent": "rightLittleIntermediate"
+ },
+ {
+  "name": "rightUpperLeg",
+  "parent": "hips"
+ },
+ {
+  "name": "rightLowerLeg",
+  "parent": "rightUpperLeg"
+ },
+ {
+  "name": "rightFoot",
+  "parent": "rightLowerLeg"
+ },
+ {
+  "name": "rightToes",
+  "parent": "rightFoot"
+ },
+ {
+  "name": "rightUpperArmHalf",
+  "parent": "rightShoulder"
+ },
+ {
+  "name": "rightLowerArmHalf",
+  "parent": "rightUpperArm"
+ },
+ {
+  "name": "rightUpperLegHalf",
+  "parent": "hips"
+ },
+ {
+  "name": "rightLowerLegHalf",
+  "parent": "rightUpperLeg"
+ },
+ {
+  "name": "rightHandHalf",
+  "parent": "rightLowerArm"
+ },
+ {
+  "name": "rightUpperArmTwist1",
+  "parent": "rightUpperArm"
+ },
+ {
+  "name": "rightUpperArmTwist2",
+  "parent": "rightUpperArm"
+ },
+ {
+  "name": "rightLowerArmTwist1",
+  "parent": "rightLowerArm"
+ },
+ {
+  "name": "rightLowerArmTwist2",
+  "parent": "rightLowerArm"
+ },
+ {
+  "name": "jaw",
+  "parent": "head"
+ },
+ {
+  "name": "leftEye",
+  "parent": "head"
+ },
+ {
+  "name": "rightEye",
+  "parent": "head"
+ }
+]

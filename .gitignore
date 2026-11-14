@@ -1,0 +1,21 @@
+build/
+.venv/
+__pycache__/
+node_modules/
+.claude/worktrees/
+.claude/settings.local.json
+# Agent instructions and shared skills are versioned; personal overrides are not.
+CLAUDE.local.md
+.pytest_cache/
+.ruff_cache/
+# Local settings and secrets: an API key belongs in the shell's profile, not here.
+.env
+.env.*
+*.local.toml
+.DS_Store
+# Python and page build output outside build/.
+dist/
+*.egg-info/
+web/test-results/
+web/playwright-report/
+web/src/paraglide/

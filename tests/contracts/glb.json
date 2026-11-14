@@ -1,0 +1,132 @@
+{
+ "format": "sotaigen/glb",
+ "version": 1,
+ "fields": {
+  "correctives": {
+   "groups": [
+    {
+     "axes": [
+      {
+       "bone": "string",
+       "keys": [
+        "number"
+       ],
+       "read": "string",
+       "scale": "number"
+      }
+     ],
+     "fades": [
+      {
+       "bone": "string",
+       "limit": "number",
+       "read": "string"
+      }
+     ],
+     "name": "string",
+     "samples": [
+      [
+       "number"
+      ]
+     ],
+     "source": "string",
+     "targets": [
+      "string"
+     ]
+    }
+   ]
+  },
+  "drivers": {
+   "central": [
+    "string"
+   ],
+   "glide": {
+    "jaw": [
+     "number"
+    ]
+   },
+   "half": [
+    {
+     "bone": "string",
+     "of": "string",
+     "roll?": "number"
+    }
+   ],
+   "rhythm": {
+    "arms": [
+     {
+      "arm": "string",
+      "girdle": "string",
+      "side": "number"
+     }
+    ],
+    "forwardLift": "number",
+    "share": "number"
+   },
+   "twist": [
+    {
+     "bone": "string",
+     "of": "string",
+     "share": "number"
+    }
+   ]
+  },
+  "expressions": [
+   "string"
+  ],
+  "format": "string",
+  "generator": {
+   "fingerprint": "string",
+   "name": "string",
+   "version": "string"
+  },
+  "head": {
+   "bones": [
+    "string"
+   ],
+   "crownVertex": "number",
+   "eyeLine": "number",
+   "eyeX": "number",
+   "neckRing": [
+    "number"
+   ],
+   "region": [
+    "number"
+   ]
+  },
+  "name": "string",
+  "quality": {
+   "checked": [
+    "string"
+   ],
+   "found": [
+    {
+     "code": "string",
+     "level": "string",
+     "values": {}
+    }
+   ]
+  },
+  "splitFrom": [
+   "number"
+  ],
+  "version": "number"
+ },
+ "correctiveGroups": [
+  "axilla.left",
+  "axilla.right",
+  "groin",
+  "hang.left",
+  "hang.right"
+ ],
+ "qualityChecks": [
+  "parameters",
+  "poses",
+  "uv",
+  "wrap"
+ ],
+ "expressions": [
+  "blink",
+  "happy",
+  "aa"
+ ]
+}

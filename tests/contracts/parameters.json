@@ -1,0 +1,578 @@
+{
+ "format": "sotaigen/params",
+ "version": 1,
+ "fields": [
+  "base",
+  "body",
+  "format",
+  "generator",
+  "sex",
+  "version"
+ ],
+ "sexes": {
+  "female": {
+   "headHeight": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "neckLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "torsoLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "crotchHeight": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "kneeHeight": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "ankleHeight": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "biacromialBreadth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "acromionRise": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "waistRise": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "chestBreadth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "chestDepth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "waistBreadth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "calibrated"
+   },
+   "waistDepth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "hipBreadth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "calibrated"
+   },
+   "hipDepth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "upperArmLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "lowerArmLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "handLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "footLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "upperArmGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "wristGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "neckGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "upperThighGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "kneeGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "calfGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "ankleGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "legClearance": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "control"
+   },
+   "upperTrunkLean": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "pelvisLean": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "headWidthRatio": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "share"
+   },
+   "headDepth": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "control"
+   },
+   "jawBreadthRatio": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "share"
+   },
+   "definition": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "control"
+   },
+   "softness": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "control"
+   },
+   "outerThighArc": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "chord"
+   },
+   "abdomenFrontArc": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "chord"
+   },
+   "lumbarHollow": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "chord"
+   },
+   "waistContourShift": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   },
+   "shoulderSetback": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "thighFrontShift": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "gluteProjection": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "glutePeakShift": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "gluteUpperFullness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "gluteLowerFullness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "outerHipShift": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "gluteFoldLength": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "shape"
+   },
+   "gluteFoldDepth": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "groinDepth": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "groinRelief": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "pectoralThickness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   },
+   "deltoidThickness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   },
+   "trapeziusThickness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   },
+   "latissimusThickness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   },
+   "breastProjection": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "under"
+   },
+   "breastBaseBreadth": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "shape"
+   },
+   "breastFoldDrop": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "shape"
+   },
+   "breastUpperPoleRatio": {
+    "unit": "ratio",
+    "optional": true,
+    "basis": "share"
+   },
+   "breastGap": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "shape"
+   },
+   "breastApexRatio": {
+    "unit": "ratio",
+    "optional": true,
+    "basis": "share"
+   }
+  },
+  "male": {
+   "headHeight": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "neckLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "torsoLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "crotchHeight": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "kneeHeight": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "ankleHeight": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "biacromialBreadth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "acromionRise": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "waistRise": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "chestBreadth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "chestDepth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "waistBreadth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "calibrated"
+   },
+   "waistDepth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "hipBreadth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "calibrated"
+   },
+   "hipDepth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "upperArmLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "lowerArmLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "handLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "footLength": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "skeleton"
+   },
+   "upperArmGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "wristGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "neckGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "upperThighGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "kneeGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "calfGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "ankleGirth": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "legClearance": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "control"
+   },
+   "upperTrunkLean": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "pelvisLean": {
+    "unit": "mm",
+    "optional": false,
+    "basis": "surface"
+   },
+   "headWidthRatio": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "share"
+   },
+   "headDepth": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "control"
+   },
+   "jawBreadthRatio": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "share"
+   },
+   "definition": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "control"
+   },
+   "softness": {
+    "unit": "ratio",
+    "optional": false,
+    "basis": "control"
+   },
+   "outerThighArc": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "chord"
+   },
+   "abdomenFrontArc": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "chord"
+   },
+   "lumbarHollow": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "chord"
+   },
+   "waistContourShift": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   },
+   "shoulderSetback": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "thighFrontShift": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "gluteProjection": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "glutePeakShift": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "gluteUpperFullness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "gluteLowerFullness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "outerHipShift": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "gluteFoldLength": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "shape"
+   },
+   "gluteFoldDepth": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "groinDepth": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "groinRelief": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "without"
+   },
+   "pectoralThickness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   },
+   "deltoidThickness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   },
+   "trapeziusThickness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   },
+   "latissimusThickness": {
+    "unit": "mm",
+    "optional": true,
+    "basis": "control"
+   }
+  }
+ }
+}

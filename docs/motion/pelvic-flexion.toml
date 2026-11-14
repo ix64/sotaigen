@@ -1,0 +1,143 @@
+# 腹部—大腿根动态解剖卡。用户定下现象的取舍后，才选择实现。
+# 还没解决：中央下腹与腿根相压部分达成，中央腿根偏硬，深屈髋仍可能穿插。见 docs/parts/groin.md。
+region = "pelvic-flexion"
+title = "小腹—骨盆—大腿根"
+status = "confirmed"
+scope = "固定骨盆与躯干的单腿、双腿屈髋，局部 X 输入 0–100°，膝输入为负髋角。先分开看静态沟形、表面相对运动和屈髋压缩；不代表主动收缩、承重下蹲或真实皮肤滑移测量。"
+chain = "骨盆与股骨建立运动关系；腹壁、耻骨附近腱膜、内收肌根部及覆盖其上的皮下组织和皮肤是不同层次。深层连续关系不能直接规定体表沟形，也不能把斜沟当作整条固定在骨上的腹股沟韧带。"
+observed = "用当前典型身体检查受控屈髋、整体灰模与 toon、截面、材料点相对运动及连续动作。没有核实过的同一真人连续屈髋表面资料，自然程度需看图判断；生产造型与范围见 docs/parts/groin.md。"
+notes = [
+  "折痕本身不是缺陷。判断位置、走向、宽深、两侧体块及形成和消退的过程，不以减少褶皱为目标。",
+  "keep 只记录要保留的现象，不表示某个形状、参数或现行结果通过视觉验收。",
+  "from/to 和 sweeps 是观察范围，不是组织触发角或生理阈值。zones 只是取样区域，不是解剖边界。",
+  "视觉选型不以穿插或塌面计数优化、排名。生产接入后 compare 报出新增穿插；技术修复不得以消除折痕为目标，改变造型仍需视觉判断。",
+  "外部角色参考只提供独立静态外观观察，图片与数据留在仓库外，不使用其绑定动作作为人体运动标准。",
+]
+
+[joint]
+upper_segment = "trunk"
+lower_segment = "upperLeg"
+upper_bone = "hips"
+lower_bone = "leftUpperLeg"
+focus = "hip"
+
+[review]
+renderer = "pelvis"
+# The dedicated renderer preserves whole-body context and uses explicit segment ownership.
+
+[[sweeps]]
+name = "single"
+pose = { leftUpperLeg = [1, 0, 0], leftLowerLeg = [-1, 0, 0] }
+angles = [0, 20, 40, 60, 80, 100]
+
+[[sweeps]]
+name = "double"
+pose = { upperLeg = [1, 0, 0], lowerLeg = [-1, 0, 0] }
+angles = [0, 20, 40, 60, 80, 100]
+
+[zones.lower-abdomen]
+axial = [-0.42, -0.06]
+azimuth = 0
+spread = 70
+
+[zones.front-transition]
+axial = [-0.16, 0.20]
+azimuth = 0
+spread = 85
+
+[zones.front-thigh]
+axial = [0.12, 0.55]
+azimuth = 0
+spread = 70
+
+[[phenomena]]
+id = "static-oblique-transition"
+name = "站姿斜沟与两侧体块"
+structure = "小腹前壁、腹股沟周围皮肤和大腿根部；具体体表线的解剖对应仍需区分"
+kind = "crease"
+sweep = "single"
+from = 0
+to = 0
+zones = ["lower-abdomen", "front-transition", "front-thigh"]
+views = ["front", "threequarter", "side"]
+reading = "先在腰腹至大腿整体看中央小腹与大腿前侧能否分别读出，再看由中央向两侧上方延伸的凹陷如何接回大面；不只看一条线够不够深。"
+current = "生产路径用清楚静态的斜沟，groinDepth、groinRelief 可以调浅（docs/parts/groin.md 的“静态强度调轻”）；斜沟可读性的视觉验收现状见 docs/parts/groin.md。"
+choice = "keep"
+decision = "保留站姿从胯部向两侧上方延伸的凹陷，做成清楚的静态斜沟；外段逐渐变浅展宽的程度由视觉对照定。"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "用户的目标及独立静态灰模观察；这支持造型方向，不是人体组织测量，不提供可复制的尺寸和参数。"
+source = "用户目标；静态观察，见 docs/parts/groin.md"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "14 份尸体标本取自 inguinal crease，组织结构比乳房下和臀下皱襞更细更松。论文把 oblique crease of the groin 描述为屈髋折线，并说明它未纳入比较，所以不能据此确定本模型目标线的解剖对应，也不能移用到屈髋折线。标本未解剖到筋膜以下，也没有运动测量。图 1 的区分沿用此前对图注的核对。"
+source = "Mallouris et al., 2016，PMC 全文文字"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC4815355/"
+
+[[phenomena]]
+id = "skin-relative-motion"
+name = "过渡区表面相对骨盆和大腿的运动"
+structure = "骨盆上方与大腿根部皮肤、皮下组织；不把它们等同于骨或深层筋膜"
+kind = "slide"
+sweep = "single"
+from = 0
+to = 100
+zones = ["lower-abdomen", "front-transition", "front-thigh"]
+views = ["front", "threequarter", "side"]
+reading = "小腹、斜向过渡与大腿上段分别追踪；检查哪部分接近留在骨盆上、哪部分随大腿转动，以及中间如何连续过渡。表面位移分布不能直接叫作真实组织滑移量。"
+current = "生产路径包含连续切向再分布。需追踪小腹、过渡和大腿上段的同一材料点；深屈髋的遮挡区不作形态结论，分段热图也不代表皮肤裂缝。"
+choice = "keep"
+decision = "保留可读、连续的相对运动，不预设滑移量；具体程度和表达方式由造型与连续动作对照定。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "5 名志愿者，MRI 骨盆模型配合不同髋姿势下体表点定位，髂前上棘、髂后上棘和骶骨上方皮肤点相对骨盆发生位移。本次读取摘要；不是腹股沟完整位移场，不能移用数值。"
+source = "Camomilla et al., 2017，PubMed 摘要"
+url = "https://pubmed.ncbi.nlm.nih.gov/28237184/"
+
+[[phenomena]]
+id = "flexion-crease"
+name = "屈髋折痕的形成与变化"
+structure = "腹股沟周围皮肤、皮下组织和折线两侧体块"
+kind = "crease"
+sweep = "single"
+from = 20
+to = 100
+zones = ["front-transition"]
+views = ["front", "threequarter", "side"]
+reading = "比较折痕落点、走向、宽深、两端消退和两侧隆起；随屈髋形成和变化是否自然。不能因有折痕判错，也不能预设必须只允许一条或规定某种算法的褶形。"
+current = "浅屈髋内侧出现局部折线，深屈髋斜向折线及外侧末端转折更明显；这是形状关系，不因为折线存在记为缺陷。外端软硬与衔接已定；中央下腹与腿根的关系还没解决；数量、宽深和自然程度通过视觉判断。"
+choice = "keep"
+decision = "真人屈髋本来就有腹股沟皱褶，问题是位置和形状对不对，而不是有没有。保留屈髋褶皱这一现象，具体形态由视觉比较决定。"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "手术技术段写明腹股沟皮肤折线可通过屈髋辨认；59 例全髋置换中 26 例用这种切口。这是手术描述，不是表面变形测量，不规定褶皱数量。"
+source = "Leunig et al., 2013，PMC 全文，核对范围见 docs/parts/groin-evidence.md"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC3676627/"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "按折痕位置与形状判断；这是本项目视觉验收原则，不是生物力学测量。"
+source = "本项目的视觉验收原则"
+
+[[phenomena]]
+id = "abdomen-thigh-compression"
+name = "深屈髋的小腹与腿根相压"
+structure = "腹前壁与大腿近端覆盖组织，中央耻骨附近的腹壁—内收肌根部关系"
+kind = "contact"
+sweep = "double"
+from = 60
+to = 100
+zones = ["lower-abdomen", "front-transition", "front-thigh"]
+views = ["front", "threequarter", "side"]
+reading = "先看整个小腹、骨盆与大腿的体块关系，再看折线两侧是怎样隆起、变平或挤在一起的；同时检查单腿与双腿时中央下腹的差别。不用穿插次数决定哪个造型更自然。"
+current = "部分达到。生产路径用宽缓相压；中央下腹与腿根的整体相压只部分达成，中央腿根偏硬没有改善（docs/parts/groin.md）。判断时看整体、俯视和两条截面，和刚性移动的分段区分。"
+choice = "simplify"
+decision = "保留大体块的相压关系，允许风格化简化，用宽缓相压，外侧末端与相邻体块按视觉调整；细褶数量、宽深和形态由视觉比较决定，不从技术约束倒推。"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "目标是深屈髋时体块、皮肤和褶皱的自然变化。模型对照只描述现状，尚无核实过的真人连续表面证据规定目标形态或接触角度。"
+source = "用户目标与观察"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "7 名男性供体的 14 个半骨盆显示腹壁与内收肌相关结构在耻骨附近有分层腱膜连续关系。研究去掉皮肤和皮下组织，仅支持深层结构背景，不能证明某一可见隆起、褶形或动态压缩量。"
+source = "Tharnmanularp et al., 2023/2024"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC10902015/"

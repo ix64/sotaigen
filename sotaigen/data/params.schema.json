@@ -1,0 +1,597 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "sotaigen/params/v1",
+ "title": "sotaigen parameters",
+ "type": "object",
+ "required": [
+  "format",
+  "version",
+  "sex",
+  "body"
+ ],
+ "additionalProperties": true,
+ "properties": {
+  "format": {
+   "const": "sotaigen/params"
+  },
+  "version": {
+   "const": 1
+  },
+  "sex": {
+   "enum": [
+    "female",
+    "male"
+   ]
+  },
+  "generator": {
+   "type": "string"
+  },
+  "base": {
+   "type": [
+    "object",
+    "null"
+   ]
+  },
+  "body": {
+   "type": "object"
+  }
+ },
+ "allOf": [
+  {
+   "if": {
+    "properties": {
+     "sex": {
+      "const": "female"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "body": {
+      "additionalProperties": false,
+      "required": [
+       "acromionRise",
+       "ankleGirth",
+       "ankleHeight",
+       "biacromialBreadth",
+       "calfGirth",
+       "chestBreadth",
+       "chestDepth",
+       "crotchHeight",
+       "definition",
+       "footLength",
+       "handLength",
+       "headDepth",
+       "headHeight",
+       "headWidthRatio",
+       "hipBreadth",
+       "hipDepth",
+       "jawBreadthRatio",
+       "kneeGirth",
+       "kneeHeight",
+       "legClearance",
+       "lowerArmLength",
+       "neckGirth",
+       "neckLength",
+       "pelvisLean",
+       "softness",
+       "torsoLength",
+       "upperArmGirth",
+       "upperArmLength",
+       "upperThighGirth",
+       "upperTrunkLean",
+       "waistBreadth",
+       "waistDepth",
+       "waistRise",
+       "wristGirth"
+      ],
+      "properties": {
+       "abdomenFrontArc": {
+        "type": "number",
+        "description": "millimetres; the surface's offset from a straight line between two stations on the same body; range -0.03 to 0.02 of the torso's length; optional: without it the body keeps its own shape"
+       },
+       "acromionRise": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range -0.115 to 0.015 of the torso's length"
+       },
+       "ankleGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.2 to 0.471 of the torso's length"
+       },
+       "ankleHeight": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.075 to 0.25 of the torso's length"
+       },
+       "biacromialBreadth": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.3976 to 0.7608 of the torso's length"
+       },
+       "breastApexRatio": {
+        "type": "number",
+        "description": "a plain number; a ratio of two dimensions of the same part; range 0.5 to 0.7; optional: without it, 0.5"
+       },
+       "breastBaseBreadth": {
+        "type": "number",
+        "description": "millimetres; a dimension of the shape this parameter's part adds; range 0.12 to 0.32 of the torso's length; optional: without it, 0.1386 of the torso's length"
+       },
+       "breastFoldDrop": {
+        "type": "number",
+        "description": "millimetres; a dimension of the shape this parameter's part adds; range 0.2 to 0.55 of the torso's length; optional: without it, 0.3027 of the torso's length"
+       },
+       "breastGap": {
+        "type": "number",
+        "description": "millimetres; a dimension of the shape this parameter's part adds; range -0.056 to 0.2 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "breastProjection": {
+        "type": "number",
+        "description": "millimetres; the most the tissue stands off the surface under it; range 0 to 0.14 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "breastUpperPoleRatio": {
+        "type": "number",
+        "description": "a plain number; a ratio of two dimensions of the same part; range 0.3 to 0.9; optional: without it, 0.45"
+       },
+       "calfGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.362 to 0.695 of the torso's length"
+       },
+       "chestBreadth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.435 to 0.61 of the torso's length"
+       },
+       "chestDepth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.312 to 0.46 of the torso's length"
+       },
+       "crotchHeight": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.36 to 0.575 of the stature"
+       },
+       "definition": {
+        "type": "number",
+        "description": "a plain number; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.5"
+       },
+       "deltoidThickness": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "footLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.2352 to 0.484 of the torso's length"
+       },
+       "gluteFoldDepth": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range 0 to 0.023 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "gluteFoldLength": {
+        "type": "number",
+        "description": "millimetres; a dimension of the shape this parameter's part adds; range 0.1675 to 0.3275 of the hip's breadth; optional: without it, 0.2475 of the hip's breadth"
+       },
+       "gluteLowerFullness": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.02 to 0.013 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "glutePeakShift": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.042 to 0.042 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "gluteProjection": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.03 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "gluteUpperFullness": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.021 to 0.017 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "groinDepth": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range 0 to 0.027 of the torso's length; optional: without it, 0.027 of the torso's length"
+       },
+       "groinRelief": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range 0 to 0.014 of the torso's length; optional: without it, 0.014 of the torso's length"
+       },
+       "handLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.1512 to 0.352 of the torso's length"
+       },
+       "headDepth": {
+        "type": "number",
+        "description": "a plain number; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0.74 to 0.99"
+       },
+       "headHeight": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.125786 to 0.25 of the stature"
+       },
+       "headWidthRatio": {
+        "type": "number",
+        "description": "a plain number; a ratio of two dimensions of the same part; range 0.66 to 0.94"
+       },
+       "hipBreadth": {
+        "type": "number",
+        "description": "millimetres; the surface's breadth at its landmark, calibrated to within 2%; range 0.44 to 0.75 of the torso's length"
+       },
+       "hipDepth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.3 to 0.48 of the torso's length"
+       },
+       "jawBreadthRatio": {
+        "type": "number",
+        "description": "a plain number; a ratio of two dimensions of the same part; range 0.604 to 0.82"
+       },
+       "kneeGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.242 to 0.784 of the torso's length"
+       },
+       "kneeHeight": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.54 to 0.66 of the crotch's height"
+       },
+       "latissimusThickness": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "legClearance": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0.01 to 0.04 of the torso's length"
+       },
+       "lowerArmLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.28 to 0.52 of the torso's length"
+       },
+       "lumbarHollow": {
+        "type": "number",
+        "description": "millimetres; the surface's offset from a straight line between two stations on the same body; range 0 to 0.06 of the torso's length; optional: without it the body keeps its own shape"
+       },
+       "neckGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.26 to 1.03 of the torso's length"
+       },
+       "neckLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.15 to 0.535 of the head's height"
+       },
+       "outerHipShift": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.055 to 0.055 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "outerThighArc": {
+        "type": "number",
+        "description": "millimetres; the surface's offset from a straight line between two stations on the same body; range -0.05 to 0.1 of the torso's length; optional: without it the body keeps its own shape"
+       },
+       "pectoralThickness": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.05 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "pelvisLean": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.004 to 0.022 of the torso's length"
+       },
+       "shoulderSetback": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range 0 to 0.1 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "softness": {
+        "type": "number",
+        "description": "a plain number; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0.9 to 1.2"
+       },
+       "thighFrontShift": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.03 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "torsoLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.2 to 0.45 of the stature"
+       },
+       "trapeziusThickness": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "upperArmGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.256 to 0.629 of the torso's length"
+       },
+       "upperArmLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.4 to 0.64 of the torso's length"
+       },
+       "upperThighGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.7 to 1 of the torso's length"
+       },
+       "upperTrunkLean": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.003 to 0.03 of the torso's length"
+       },
+       "waistBreadth": {
+        "type": "number",
+        "description": "millimetres; the surface's breadth at its landmark, calibrated to within 2%; range 0.33 to 0.6 of the torso's length"
+       },
+       "waistContourShift": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range -0.06 to 0.16 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "waistDepth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.27 to 0.45 of the torso's length"
+       },
+       "waistRise": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.38 to 0.48 of the torso's length"
+       },
+       "wristGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.16 to 0.365 of the torso's length"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "sex": {
+      "const": "male"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "body": {
+      "additionalProperties": false,
+      "required": [
+       "acromionRise",
+       "ankleGirth",
+       "ankleHeight",
+       "biacromialBreadth",
+       "calfGirth",
+       "chestBreadth",
+       "chestDepth",
+       "crotchHeight",
+       "definition",
+       "footLength",
+       "handLength",
+       "headDepth",
+       "headHeight",
+       "headWidthRatio",
+       "hipBreadth",
+       "hipDepth",
+       "jawBreadthRatio",
+       "kneeGirth",
+       "kneeHeight",
+       "legClearance",
+       "lowerArmLength",
+       "neckGirth",
+       "neckLength",
+       "pelvisLean",
+       "softness",
+       "torsoLength",
+       "upperArmGirth",
+       "upperArmLength",
+       "upperThighGirth",
+       "upperTrunkLean",
+       "waistBreadth",
+       "waistDepth",
+       "waistRise",
+       "wristGirth"
+      ],
+      "properties": {
+       "abdomenFrontArc": {
+        "type": "number",
+        "description": "millimetres; the surface's offset from a straight line between two stations on the same body; range -0.03 to 0.02 of the torso's length; optional: without it the body keeps its own shape"
+       },
+       "acromionRise": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range -0.115 to 0.015 of the torso's length"
+       },
+       "ankleGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.2 to 0.471 of the torso's length"
+       },
+       "ankleHeight": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.075 to 0.25 of the torso's length"
+       },
+       "biacromialBreadth": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.3976 to 0.86 of the torso's length"
+       },
+       "calfGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.362 to 0.695 of the torso's length"
+       },
+       "chestBreadth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.435 to 0.61 of the torso's length"
+       },
+       "chestDepth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.312 to 0.46 of the torso's length"
+       },
+       "crotchHeight": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.36 to 0.575 of the stature"
+       },
+       "definition": {
+        "type": "number",
+        "description": "a plain number; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.5"
+       },
+       "deltoidThickness": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "footLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.2352 to 0.484 of the torso's length"
+       },
+       "gluteFoldDepth": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range 0 to 0.023 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "gluteFoldLength": {
+        "type": "number",
+        "description": "millimetres; a dimension of the shape this parameter's part adds; range 0.1675 to 0.3275 of the hip's breadth; optional: without it, 0.2475 of the hip's breadth"
+       },
+       "gluteLowerFullness": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.02 to 0.013 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "glutePeakShift": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.042 to 0.042 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "gluteProjection": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.03 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "gluteUpperFullness": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.021 to 0.017 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "groinDepth": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range 0 to 0.027 of the torso's length; optional: without it, 0.027 of the torso's length"
+       },
+       "groinRelief": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range 0 to 0.014 of the torso's length; optional: without it, 0.014 of the torso's length"
+       },
+       "handLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.1512 to 0.352 of the torso's length"
+       },
+       "headDepth": {
+        "type": "number",
+        "description": "a plain number; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0.74 to 0.99"
+       },
+       "headHeight": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.125786 to 0.25 of the stature"
+       },
+       "headWidthRatio": {
+        "type": "number",
+        "description": "a plain number; a ratio of two dimensions of the same part; range 0.66 to 0.94"
+       },
+       "hipBreadth": {
+        "type": "number",
+        "description": "millimetres; the surface's breadth at its landmark, calibrated to within 2%; range 0.44 to 0.75 of the torso's length"
+       },
+       "hipDepth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.3 to 0.48 of the torso's length"
+       },
+       "jawBreadthRatio": {
+        "type": "number",
+        "description": "a plain number; a ratio of two dimensions of the same part; range 0.604 to 0.82"
+       },
+       "kneeGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.242 to 0.784 of the torso's length"
+       },
+       "kneeHeight": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.54 to 0.66 of the crotch's height"
+       },
+       "latissimusThickness": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "legClearance": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0.01 to 0.04 of the torso's length"
+       },
+       "lowerArmLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.28 to 0.52 of the torso's length"
+       },
+       "lumbarHollow": {
+        "type": "number",
+        "description": "millimetres; the surface's offset from a straight line between two stations on the same body; range 0 to 0.06 of the torso's length; optional: without it the body keeps its own shape"
+       },
+       "neckGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.26 to 1.03 of the torso's length"
+       },
+       "neckLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.15 to 0.535 of the head's height"
+       },
+       "outerHipShift": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.055 to 0.055 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "outerThighArc": {
+        "type": "number",
+        "description": "millimetres; the surface's offset from a straight line between two stations on the same body; range -0.05 to 0.1 of the torso's length; optional: without it the body keeps its own shape"
+       },
+       "pectoralThickness": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.05 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "pelvisLean": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.004 to 0.022 of the torso's length"
+       },
+       "shoulderSetback": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range 0 to 0.1 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "softness": {
+        "type": "number",
+        "description": "a plain number; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0.9 to 1.2"
+       },
+       "thighFrontShift": {
+        "type": "number",
+        "description": "millimetres; how far the surface moves from the same body without this parameter; range -0.03 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "torsoLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.2 to 0.45 of the stature"
+       },
+       "trapeziusThickness": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range 0 to 0.03 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "upperArmGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.256 to 0.629 of the torso's length"
+       },
+       "upperArmLength": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.4 to 0.64 of the torso's length"
+       },
+       "upperThighGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.7 to 1 of the torso's length"
+       },
+       "upperTrunkLean": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.003 to 0.03 of the torso's length"
+       },
+       "waistBreadth": {
+        "type": "number",
+        "description": "millimetres; the surface's breadth at its landmark, calibrated to within 2%; range 0.33 to 0.6 of the torso's length"
+       },
+       "waistContourShift": {
+        "type": "number",
+        "description": "millimetres; an internal control of the masses, not a measurement: what one value makes may change with the masses; range -0.06 to 0.16 of the torso's length; optional: without it, 0 of the torso's length"
+       },
+       "waistDepth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.27 to 0.44 of the torso's length"
+       },
+       "waistRise": {
+        "type": "number",
+        "description": "millimetres; a length or height between the landmarks the bones are placed from; range 0.38 to 0.48 of the torso's length"
+       },
+       "wristGirth": {
+        "type": "number",
+        "description": "millimetres; the finished surface's measurement, as sotaigen/form/measures.py and the profiles read it; solved for; range 0.16 to 0.365 of the torso's length"
+       }
+      }
+     }
+    }
+   }
+  }
+ ]
+}

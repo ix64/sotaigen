@@ -1,0 +1,40 @@
+{
+  // Types only, run through pnpm run typecheck. Vite builds the pages without looking at the types, and
+  // Node strips them from the editor's logic. What web/runtime still has as .mjs is checked from JSDoc.
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "target": "es2023",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "types": ["node"],
+    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    // The paths web/serve.mjs serves. The generated module is read through the copy that
+    // pnpm run typecheck makes, because the generator's own output has no parameter types.
+    "paths": {
+      "@/*": ["./src/*"],
+      "/build/editor/params.generated.mjs": ["../build/typecheck/params.generated.mjs"]
+    }
+  },
+  // Page code only. The Node scripts (serve, check, measure) would need @types/node.
+  "include": [
+    "globals.d.ts",
+    "src",
+    "editor/**/*.ts",
+    "editor/**/*.tsx",
+    "runtime/**/*.ts",
+    "runtime/**/*.tsx",
+    "runtime/body.mjs",
+    "runtime/check-page.mjs",
+    "runtime/driver.mjs",
+    "runtime/toon.mjs",
+    "tests/*.ts",
+    "playwright.config.ts"
+  ]
+}

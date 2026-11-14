@@ -1,0 +1,777 @@
+{
+ "about": "人的正常关节活动范围（度），从解剖中立位量起，给 .blend 控制骨的旋转限制用（DECISIONS 绑定与动作的“关节极限”）。value 是取整后的默认值，取自 source；detail 是来源里的原始数；null 是还没有能读到的来源。说明和换到骨骼局部轴的方法见 range-of-motion.md。",
+ "sources": {
+  "soucie2011": {
+   "citation": "Soucie JM, Wang C, Forsyth A, et al. Range of motion measurements: reference values and a database for comparison studies. Haemophilia 2011;17(3):500-507.",
+   "doi": "10.1111/j.1365-2516.2010.02399.x",
+   "read": "https://archive.cdc.gov/www_cdc_gov/ncbddd/jointrom/index.html",
+   "strength": "measured",
+   "population": "674 healthy, 2-69 y, US; nine physical therapists, universal goniometer, passive (per the paper's abstract); the CDC page gives value and 95% CI by sex and age group"
+  },
+  "mckay2017": {
+   "citation": "McKay MJ, Baldwin JN, Ferreira P, et al. Normative reference values for strength and flexibility of 1,000 children and adults. Neurology 2017;88(1):36-43.",
+   "doi": "10.1212/WNL.0000000000003466",
+   "read": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5200854/ (Table 2, image)",
+   "strength": "measured",
+   "population": "1000 healthy, 3-101 y, Sydney; active ROM, goniometer or inclinometer; mean (SD) by age group and sex"
+  },
+  "roaas1982": {
+   "citation": "Roaas A, Andersson GBJ. Normal range of motion of the hip, knee and ankle joints in male subjects, 30-40 years of age. Acta Orthop Scand 1982;53(2):205-208.",
+   "doi": "10.3109/17453678208992202",
+   "read": "https://actaorthop.org/actao/article/view/28654 (Table 1)",
+   "strength": "measured",
+   "population": "105 healthy men, 30-40 y, Göteborg; passive, AAOS technique; hip extension and rotation prone with knee flexed, abduction and adduction supine with knee extended. Table 1 also lists the AAOS handbook values and Boone & Azen (1979)"
+  },
+  "gill2020": {
+   "citation": "Gill TK, Shanahan EM, Tucker GR, Buchbinder R, Hill CL. Shoulder range of movement in the general population: age and gender stratified normative data using a community-based cohort. BMC Musculoskelet Disord 2020;21:676.",
+   "doi": "10.1186/s12891-020-03665-9",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "2404, 20-91 y (mean 45.8), Adelaide; active, inclinometer; right side means over all ages"
+  },
+  "fan2018": {
+   "citation": "Fan S, Cepek J, Symonette C, et al. Variation of grip strength and wrist range of motion with forearm rotation in healthy young volunteers aged 23 to 30. J Hand Microsurg 2019;11(2):88-93.",
+   "doi": "10.1055/s-0038-1676134",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "30 healthy, 23-30 y; goniometer; values depend on forearm rotation"
+  },
+  "ibrahim2024": {
+   "citation": "Mohamed Ibrahim BK, Baba PUF, Singh V, et al. The normal active range of motion of the index, middle, ring, and little fingers in a sample of Indian population. Indian J Plast Surg 2024;57(4):248-255.",
+   "doi": "10.1055/s-0044-1788593",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "390 hands, four centres, India; active, goniometer; mean (SD) per finger"
+  },
+  "ferrario2002": {
+   "citation": "Ferrario VF, Sforza C, Serrao G, Grassi G, Mossi E. Active range of motion of the head and cervical spine: a three-dimensional investigation in healthy young adults. J Orthop Res 2002;20(1):122-129.",
+   "doi": "10.1016/S0736-0266(01)00079-1",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "30 women, 30 men, young adults; optoelectronic; head-cervical total arcs (both directions together)"
+  },
+  "troke2005": {
+   "citation": "Troke M, Moore AP, Maillardet FJ, Cheek E. A normative database of lumbar spine ranges of motion. Man Ther 2005;10(3):198-206.",
+   "doi": "10.1016/j.math.2004.10.004",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "405 asymptomatic, 16-90 y; standing, CA6000 spine motion analyser; lumbar only, ranges given from youngest to oldest"
+  },
+  "gates2016": {
+   "citation": "Gates DH, Walters LS, Cowley J, Wilken JM, Resnik L. Range of motion requirements for upper-limb activities of daily living. Am J Occup Ther 2016;70(1):7001350010p1-p10.",
+   "doi": "10.5014/ajot.2016.015487",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "15 right-handed healthy; motion capture during eight daily activities; these are the motions needed, not the maximum"
+  },
+  "konor2012": {
+   "citation": "Konor MM, Morton S, Eckerson JM, Grindstaff TL. Reliability of three measures of ankle dorsiflexion range of motion. Int J Sports Phys Ther 2012;7(3):279-287.",
+   "pmid": "22666642",
+   "read": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3362988/ (Table 2)",
+   "strength": "measured",
+   "population": "20 healthy, 24 +- 3 y; weight-bearing lunge, heel down, knee to the wall over the second toe; tibia's angle from vertical by digital inclinometer at the tibial tuberosity and by goniometer along the fibula, zeroed with the tibia vertical"
+  },
+  "fujimori2012": {
+   "citation": "Fujimori T, Iwasaki M, Nagamoto Y, et al. Kinematics of the thoracic spine in trunk rotation: in vivo 3-dimensional analysis. Spine 2012;37(21):E1318-E1328.",
+   "doi": "10.1097/BRS.0b013e318267254b",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "13 healthy volunteers; CT in neutral and maximum trunk rotation to each side, voxel-based registration; T1 relative to L1 and each segment"
+  },
+  "fujimori2014": {
+   "citation": "Fujimori T, Iwasaki M, Nagamoto Y, et al. Kinematics of the thoracic spine in trunk lateral bending: in vivo three-dimensional analysis. Spine J 2014;14(9):1991-1999.",
+   "doi": "10.1016/j.spinee.2013.11.054",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "15 healthy men; CT supine in neutral and maximum lateral bending to each side; T1 relative to L1 and each segment"
+  },
+  "morita2014": {
+   "citation": "Morita D, Yukawa Y, Nakashima H, et al. Range of motion of thoracic spine in sagittal plane. Eur Spine J 2014;23(3):673-678.",
+   "doi": "10.1007/s00586-013-3088-7",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "50 patients with cervical or lumbar disease but no thoracic disease, 27-81 y (mean 55); CT at passive maximum flexion and extension, no neutral scan"
+  },
+  "krohn2020": {
+   "citation": "Krohn S, Frahm J, Mahler A, et al. Biomechanical analysis of temporomandibular joint dynamics based on real-time magnetic resonance imaging. Int J Comput Dent 2020;23(3):235-244.",
+   "pmid": "32789311",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "healthy volunteers, real-time MRI at 15 frames per second; mean mandibular rotation and horizontal condylar inclination"
+  },
+  "li2016": {
+   "citation": "Li XY, Jia C, Zhang ZC. The normal range of maximum mouth opening and its correlation with height or weight in the young adult Chinese population. J Dent Sci 12(1):56-59.",
+   "doi": "10.1016/j.jds.2016.09.002",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "452 healthy, 20-35 y, China; maximum interincisal opening"
+  },
+  "gallagher2004": {
+   "citation": "Gallagher C, Gallagher V, Whelton H, Cronin M. The normal range of mouth opening in an Irish population. J Oral Rehabil 2004;31(2):110-116.",
+   "doi": "10.1046/j.0305-182x.2003.01209.x",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "1513 adults, 16-99 y, Irish national survey; maximum mouth opening falls with age"
+  },
+  "skaricic2020": {
+   "citation": "Škaričić J, Čimić S, Kraljević-Šimunković S, Vuletić M, Dulčić N. Influence of occlusal splint on mandibular movements in patients with bruxism: a comparative pilot study. Acta Stomatol Croat 2020;54(3):322-332.",
+   "doi": "10.15644/asc54/3/10",
+   "read": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7586893/ (text through PubMed, without its figures)",
+   "strength": "measured",
+   "population": "9 adults with bruxism, mean 28.7 y, ultrasonic face bow; laterotrusion at the incisal point, before treatment. A pilot study of patients, used only for the size of the movement; the text also quotes Agerberg's 5 mm as the normal floor"
+  },
+  "gerling": {
+   "citation": "Gerling J, Lieb B, Kommerell G. Duction ranges in normal probands and patients with Graves' ophthalmopathy, determined using the Goldmann perimeter. Int Ophthalmol 21(4):213-221.",
+   "doi": "10.1023/a:1006011305167",
+   "read": "PubMed abstract only",
+   "strength": "snippet",
+   "population": "100 normal probands, 21-70 y, one eye; Goldmann perimeter, the end point of a slow pursuit"
+  }
+ },
+ "joints": {
+  "shoulder": {
+   "motions": {
+    "flexion": {
+     "value": 170,
+     "source": "soucie2011",
+     "detail": {
+      "adult_20_44": {
+       "female": 172.0,
+       "male": 168.8
+      },
+      "age_45_69": {
+       "female": 168.1,
+       "male": 164.0
+      },
+      "age_2_8": {
+       "female": 178.6,
+       "male": 177.8
+      },
+      "active_all_ages": {
+       "male": 161.5,
+       "female": 158.5,
+       "source": "gill2020"
+      }
+     },
+     "note": "前屈上举，含肩胛的参与。被动。"
+    },
+    "abduction": {
+     "value": 150,
+     "source": "gill2020",
+     "detail": {
+      "male": 151.5,
+      "female": 149.7
+     },
+     "note": "侧举上举，含肩胛的参与。主动，20–91 岁的平均，年轻人更大：从最年轻到最年长组下降约 37–40°。"
+    },
+    "internalRotation": {
+     "value": 60,
+     "source": "mckay2017",
+     "detail": {
+      "adult_20_59": {
+       "male": 58,
+       "female": 63
+      },
+      "age_60_plus": {
+       "male": 57,
+       "female": 63
+      }
+     },
+     "note": "主动；文中没读到测量体位。"
+    },
+    "externalRotation": {
+     "value": 83,
+     "source": "mckay2017",
+     "detail": {
+      "adult_20_59": {
+       "male": 83,
+       "female": 83
+      },
+      "age_3_9": {
+       "male": 98,
+       "female": 99
+      },
+      "age_60_plus": {
+       "male": 71,
+       "female": 72
+      }
+     },
+     "note": "主动；文中没读到测量体位。"
+    },
+    "extension": null,
+    "horizontalAdduction": null
+   }
+  },
+  "elbow": {
+   "motions": {
+    "flexion": {
+     "value": 147,
+     "source": "soucie2011",
+     "detail": {
+      "adult_20_44": {
+       "female": 150.0,
+       "male": 144.6
+      },
+      "active_adult_20_59": {
+       "male": 147,
+       "female": 149,
+       "source": "mckay2017"
+      }
+     },
+     "note": "被动。"
+    },
+    "hyperextension": {
+     "value": 3,
+     "source": "soucie2011",
+     "detail": {
+      "adult_20_44": {
+       "female": 4.7,
+       "male": 0.8
+      },
+      "active_adult_20_59": {
+       "male": 2,
+       "female": 4,
+       "source": "mckay2017"
+      }
+     },
+     "note": "伸直以外的过伸，女性更多。"
+    }
+   }
+  },
+  "forearm": {
+   "motions": {
+    "pronation": {
+     "value": 80,
+     "source": "soucie2011",
+     "detail": {
+      "adult_20_44": {
+       "female": 82.0,
+       "male": 76.9
+      }
+     },
+     "note": "从拇指朝上的中立位量。"
+    },
+    "supination": {
+     "value": 88,
+     "source": "soucie2011",
+     "detail": {
+      "adult_20_44": {
+       "female": 90.6,
+       "male": 85.0
+      }
+     },
+     "note": "从拇指朝上的中立位量。"
+    }
+   }
+  },
+  "wrist": {
+   "motions": {
+    "flexion": {
+     "value": 75,
+     "source": "fan2018",
+     "note": "前臂中立位：男 70.2–72.6，女 79.9；随前臂旋转变化，旋后时男性只有约 63。摘要里的数是分散的，取约数。"
+    },
+    "extension": {
+     "value": 65,
+     "source": "fan2018",
+     "note": "男性旋后 64.6、旋前 69.5；女性各位置无显著差别（摘要没给数）。"
+    },
+    "radialDeviation": {
+     "value": 20,
+     "source": "fan2018",
+     "note": "男性旋后 15.4–16.3、旋前 23.9–24.6。"
+    },
+    "ulnarDeviation": {
+     "value": 35,
+     "source": "fan2018",
+     "note": "女性非利手旋前 33.2、旋后 44.6；男性不随前臂位置变化（摘要没给数）。"
+    }
+   }
+  },
+  "fingers": {
+   "motions": {
+    "mcpFlexion": {
+     "value": 85,
+     "source": "ibrahim2024",
+     "detail": {
+      "index": 86.0,
+      "middle": 86.6,
+      "ring": 84.2,
+      "little": 85.0
+     },
+     "note": "主动。"
+    },
+    "mcpExtension": {
+     "value": 25,
+     "source": "ibrahim2024",
+     "detail": {
+      "index": 25.7,
+      "middle": 24.7,
+      "ring": 22.3,
+      "little": 26.3
+     },
+     "note": "过伸。"
+    },
+    "pipFlexion": {
+     "value": 95,
+     "source": "ibrahim2024",
+     "detail": {
+      "index": 97.2,
+      "middle": 96.2,
+      "ring": 96.0,
+      "little": 91.8
+     }
+    },
+    "pipExtension": {
+     "value": 15,
+     "source": "ibrahim2024",
+     "detail": {
+      "index": 13.7,
+      "middle": 15.6,
+      "ring": 16.2,
+      "little": 13.2
+     },
+     "note": "过伸。"
+    },
+    "dipFlexion": {
+     "value": 83,
+     "source": "ibrahim2024",
+     "note": "食指 81.6 到小指 84.6。"
+    },
+    "dipExtension": {
+     "value": 7,
+     "source": "ibrahim2024",
+     "detail": {
+      "index": 6.0,
+      "middle": 8.4,
+      "ring": 8.1,
+      "little": 6.8
+     },
+     "note": "过伸。"
+    },
+    "mcpAbduction": null
+   }
+  },
+  "thumb": {
+   "motions": {
+    "cmc": null,
+    "mcpFlexion": null,
+    "ipFlexion": null
+   }
+  },
+  "hip": {
+   "motions": {
+    "flexion": {
+     "value": 125,
+     "source": "roaas1982",
+     "detail": {
+      "right": 120.3,
+      "aaos": 113,
+      "cdc_adult_20_44": {
+       "female": 133.8,
+       "male": 130.4,
+       "source": "soucie2011"
+      },
+      "active_adult_20_59": {
+       "male": 120,
+       "female": 123,
+       "source": "mckay2017"
+      }
+     },
+     "note": "被动，男性 30–40 岁 120.3；CDC 被动 130–134（20–44 岁），McKay 主动 120–123。AAOS 手册 113。"
+    },
+    "extension": {
+     "value": 18,
+     "source": "soucie2011",
+     "detail": {
+      "adult_20_44": {
+       "female": 18.1,
+       "male": 17.4
+      },
+      "roaas": 9.4,
+      "aaos": 28
+     },
+     "note": "取 CDC 20–44 岁被动的平均（女 18.1、男 17.4），和其他关节一样取成人被动值；原来写 15，偏紧。Roaas 俯卧屈膝只有 9.4；AAOS 手册 28。"
+    },
+    "abduction": {
+     "value": 40,
+     "source": "roaas1982",
+     "detail": {
+      "right": 38.8,
+      "aaos": 48,
+      "boone_azen": 40.5
+     },
+     "note": "仰卧伸膝。AAOS 手册 48，Boone & Azen 40.5。"
+    },
+    "adduction": {
+     "value": 30,
+     "source": "roaas1982",
+     "detail": {
+      "right": 30.5,
+      "aaos": 31,
+      "boone_azen": 25.6
+     },
+     "note": "AAOS 手册 31，Boone & Azen 25.6。"
+    },
+    "internalRotation": {
+     "value": 35,
+     "source": "roaas1982",
+     "detail": {
+      "right": 32.6,
+      "aaos": 35,
+      "boone_azen": 44.4,
+      "active_adult_20_59": {
+       "male": 36,
+       "female": 40,
+       "source": "mckay2017"
+      }
+     },
+     "note": "俯卧屈膝。McKay 主动 36–40。AAOS 手册 35，Boone & Azen 44.4。"
+    },
+    "externalRotation": {
+     "value": 35,
+     "source": "roaas1982",
+     "detail": {
+      "right": 33.6,
+      "aaos": 48,
+      "boone_azen": 44.2,
+      "active_adult_20_59": {
+       "male": 30,
+       "female": 27,
+       "source": "mckay2017"
+      }
+     },
+     "note": "俯卧屈膝。McKay 主动 27–30。AAOS 手册 48，Boone & Azen 44.2。"
+    }
+   }
+  },
+  "knee": {
+   "motions": {
+    "flexion": {
+     "value": 140,
+     "source": "soucie2011",
+     "detail": {
+      "adult_20_44": {
+       "female": 141.9,
+       "male": 137.7
+      },
+      "roaas": 143.8,
+      "aaos": 134
+     },
+     "note": "被动。Roaas 143.8，AAOS 手册 134。"
+    },
+    "hyperextension": {
+     "value": 1,
+     "source": "soucie2011",
+     "detail": {
+      "adult_20_44": {
+       "female": 1.6,
+       "male": 1.0
+      }
+     },
+     "note": "CDC 1.0–1.6；Roaas 记为 −1.6（伸不直）。"
+    }
+   }
+  },
+  "ankle": {
+   "motions": {
+    "dorsiflexion": {
+     "value": 40,
+     "source": "konor2012",
+     "detail": {
+      "weightBearingKneeFlexed": {
+       "inclinometer": {
+        "right": [
+         38.2,
+         39.0
+        ],
+        "left": [
+         39.3,
+         39.9
+        ]
+       },
+       "goniometer": {
+        "right": [
+         43.4,
+         43.9
+        ],
+        "left": [
+         43.1,
+         44.1
+        ]
+       },
+       "source": "konor2012"
+      },
+      "passiveKneeExtended": {
+       "adult_20_44": {
+        "female": 13.8,
+        "male": 12.7
+       },
+       "roaas": 15.3,
+       "aaos": 18,
+       "source": "soucie2011"
+      }
+     },
+     "note": "屈膝、负重（弓步，足跟着地）时胫骨离竖直的角度，两次测量、两侧；取更可靠的倾角计 38–40。伸膝时被动只有 13–18（CDC、Roaas、AAOS），差别来自跨膝的腓肠肌：伸膝时它先拉紧，屈膝时放松，屈膝的值才是踝本身能转多少。控制骨的极限不知道膝角，取伸膝的值会挡住所有下蹲，所以取屈膝负重的值。McKay 主动 29–32 也在两者之间。论文引用的正常范围是 30–50。"
+    },
+    "plantarflexion": {
+     "value": 55,
+     "source": "soucie2011",
+     "detail": {
+      "adult_20_44": {
+       "female": 62.1,
+       "male": 54.6
+      },
+      "roaas": 39.7,
+      "aaos": 48
+     },
+     "note": "被动，CDC 55–62；Roaas 39.7；AAOS 手册 48；McKay 主动 56–62。"
+    },
+    "eversion": {
+     "value": 25,
+     "source": "roaas1982",
+     "detail": {
+      "right": 27.6,
+      "boone_azen": 19.2
+     },
+     "note": "外翻（valgus），前足加后足。AAOS 手册前足 18 加后足 5，Boone & Azen 19.2。"
+    },
+    "inversion": {
+     "value": 30,
+     "source": "roaas1982",
+     "detail": {
+      "right": 27.7,
+      "boone_azen": 36.2
+     },
+     "note": "内翻（varus），前足加后足。AAOS 手册前足 33 加后足 5，Boone & Azen 36.2。"
+    }
+   }
+  },
+  "toes": {
+   "motions": {
+    "mtpFlexion": null,
+    "mtpExtension": null
+   }
+  },
+  "cervical": {
+   "motions": {
+    "flexion": {
+     "value": 60,
+     "source": "mckay2017",
+     "detail": {
+      "adult_20_59": {
+       "male": 59,
+       "female": 56
+      }
+     },
+     "note": "主动，成人 56–59。Ferrario 头颈屈伸合计 130（男）、136（女）。"
+    },
+    "extension": {
+     "value": 60,
+     "source": "mckay2017",
+     "detail": {
+      "adult_20_59": {
+       "male": 58,
+       "female": 61
+      }
+     },
+     "note": "主动，成人 58–61；60 岁以上 40–43。"
+    },
+    "lateralFlexion": {
+     "value": 40,
+     "source": "ferrario2002",
+     "note": "每侧。左右合计男 77、女 91，按对称取一半。"
+    },
+    "rotation": {
+     "value": 78,
+     "source": "ferrario2002",
+     "note": "每侧。左右合计男 155、女 162，按对称取一半。"
+    }
+   }
+  },
+  "lumbar": {
+   "motions": {
+    "flexion": {
+     "value": 60,
+     "source": "troke2005",
+     "note": "只是腰椎。从最年轻到最年长组 73 → 40。"
+    },
+    "extension": {
+     "value": 20,
+     "source": "troke2005",
+     "note": "29 → 6，随年龄下降最多。"
+    },
+    "lateralFlexion": {
+     "value": 25,
+     "source": "troke2005",
+     "note": "每侧，28 → 14。"
+    },
+    "rotation": {
+     "value": 7,
+     "source": "troke2005",
+     "note": "每侧，各年龄中位数都约 7；胸椎的扭转另算，这里没有来源。"
+    }
+   }
+  },
+  "thoracic": {
+   "motions": {
+    "rotation": {
+     "value": 25,
+     "source": "fujimori2012",
+     "detail": {
+      "T1_L1": 24.9,
+      "sd": 4.9,
+      "segments": {
+       "T1-T2": 1.2,
+       "T2-T3": 1.6,
+       "T3-T4": 1.4,
+       "T4-T5": 1.6,
+       "T5-T6": 1.8,
+       "T6-T7": 1.9,
+       "T7-T8": 2.3,
+       "T8-T9": 2.5,
+       "T9-T10": 2.7,
+       "T10-T11": 2.6,
+       "T11-T12": 1.3,
+       "T12-L1": 0.5
+      }
+     },
+     "note": "每侧，T1 对 L1。各节之和 21.4，小于整段直接量的 24.9（耦合的侧屈、屈伸也在里面）。中段（T6–T11）最大。"
+    },
+    "lateralFlexion": {
+     "value": 16,
+     "source": "fujimori2014",
+     "detail": {
+      "T1_L1": 15.6,
+      "sd": 6.3,
+      "segments": {
+       "T1-T2": 1.4,
+       "T2-T3": 1.3,
+       "T3-T4": 1.4,
+       "T4-T5": 0.9,
+       "T5-T6": 0.8,
+       "T6-T7": 1.1,
+       "T7-T8": 1.7,
+       "T8-T9": 1.3,
+       "T9-T10": 1.6,
+       "T10-T11": 1.8,
+       "T11-T12": 2.3,
+       "T12-L1": 2.2
+      }
+     },
+     "note": "每侧，仰卧，T1 对 L1。各节之和 17.8，大于整段的 15.6。下段（T10–L1）最大。"
+    },
+    "flexionExtensionArc": {
+     "value": 32,
+     "source": "morita2014",
+     "detail": {
+      "T1_L1": 31.7,
+      "sd": 11.3,
+      "kyphosisInFlexion": 40.2,
+      "kyphosisInExtension": 8.5
+     },
+     "note": "屈到伸的总弧，被动，CT。没有中立位的扫描，所以分不出屈多少、伸多少；最大一节在 T12/L1（4.2），最小在 T4/5（0.9）。患者组，平均 55 岁。"
+    },
+    "flexion": null,
+    "extension": null
+   }
+  },
+  "jaw": {
+   "motions": {
+    "opening": {
+     "value": 27,
+     "source": "krohn2020",
+     "detail": {
+      "mean": 26.6,
+      "sd": 7.2,
+      "horizontalCondylarInclination": 34.8,
+      "inclinationSd": 11.3
+     },
+     "note": "下颌绕横轴的转动，到最大张口，取整。前滑不算在角度里。切牙间距 52 ± 5 mm（男 54、女 50，li2016）；全人群调查男 43、女 41，随年龄变小（gallagher2004）。"
+    },
+    "lateralExcursion": {
+     "value": 5,
+     "source": "skaricic2020",
+     "detail": {
+      "left_mm": 8.28,
+      "right_mm": 8.17
+     },
+     "note": "每侧。来源量的是切牙点的侧移，约 8 mm，不是角度；按关节到切牙约 95 mm 换成约 5°，这个杠杆是估的，没有来源。绕竖轴的近似。"
+    }
+   }
+  },
+  "eye": {
+   "motions": {
+    "elevation": {
+     "value": 38,
+     "source": "gerling",
+     "detail": {
+      "mean": 37.6
+     },
+     "note": "单眼，随年龄略减。"
+    },
+    "depression": {
+     "value": 58,
+     "source": "gerling",
+     "detail": {
+      "mean": 58.0
+     },
+     "note": "单眼。"
+    },
+    "adduction": {
+     "value": 52,
+     "source": "gerling",
+     "detail": {
+      "mean": 51.6
+     },
+     "note": "单眼，朝鼻侧。"
+    },
+    "abduction": {
+     "value": 49,
+     "source": "gerling",
+     "detail": {
+      "mean": 48.7
+     },
+     "note": "单眼，朝外侧。"
+    }
+   }
+  }
+ },
+ "functional": {
+  "source": "gates2016",
+  "note": "八项日常上肢动作需要的范围，不是最大值；可作为干净范围的下限目标。负号在前的是相反方向。",
+  "humeralPlane": [
+   -65,
+   105
+  ],
+  "humeralElevation": [
+   0,
+   108
+  ],
+  "humeralRotation": [
+   -55,
+   79
+  ],
+  "elbowFlexion": [
+   0,
+   121
+  ],
+  "forearmRotation": [
+   -53,
+   13
+  ],
+  "wristFlexionExtension": [
+   -40,
+   38
+  ],
+  "wristUlnarRadial": [
+   -28,
+   38
+  ],
+  "trunk": {
+   "lean": 23,
+   "axialRotation": 32,
+   "flexionExtension": 59
+  }
+ }
+}

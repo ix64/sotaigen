@@ -1,0 +1,15 @@
+# JavaScript dependencies live in web/; development commands run from the repository root.
+packages:
+  - web
+
+# Refuse versions published less than 14 days ago (minutes). Setting it explicitly also makes it
+# strict: a too-new version fails resolution instead of being skipped silently. docs/WORKFLOW.md has
+# the same rule for people choosing versions.
+minimumReleaseAge: 20160
+
+# Install scripts run only for packages listed here; anything else fails the install
+# (strictDepBuilds is on by default). None of the current packages needs one.
+allowBuilds: {}
+
+# A Node outside engines.node fails the install instead of warning.
+engineStrict: true

@@ -1,0 +1,83 @@
+# 腕屈伸动态解剖卡。格式和用法见 docs/motion/README.md。取舍由用户决定。
+region = "wrist"
+title = "腕：屈腕"
+status = "confirmed"
+scope = "屈腕到 60°（托腮、撑手的目标），伸腕只作对照。前臂旋前旋后、腕侧偏和手指另看。表中角度是程序输入（`hand` 局部 X）。"
+observed = "12 个典型身体，带手的半转骨：屈腕、伸腕 30、45、60、80°，clay 和 toon，沿弯曲轴（side）、手背（back）、手掌（front），不带修正形状（这些姿势的修正为零），不烘焙 IPC。没有核实过的真人照片参照。"
+chain = "桡骨远端、近排腕骨（舟骨、月骨、三角骨）、远排腕骨和掌骨。屈腕分在桡腕关节和腕中关节两处完成，不是一个铰链。模型分两步转、仍是一个转心：`hand` 骨从腕环中心转，半转骨 `HandHalf` 从同一点转一半；真正分开两个转心时手的摆放会变（docs/parts/limbs.md 的“屈肘 145° 和屈腕 60°”）。"
+notes = [
+  "伸腕的干净范围已经到目标 60°，本卡只管屈腕。",
+  "腕背硬角和手背与前臂相贴（80°）不是一回事：前者是转心和过渡带，后者是两段的厚度，80° 不在目标里。",
+]
+
+[joint]
+upper_segment = "lowerArm"
+lower_segment = "hand"
+upper_bone = "leftLowerArm"
+lower_bone = "leftHand"
+focus = "wrist"
+
+[[sweeps]]
+name = "flex"
+pose = { hand = [1, 0, 0] }
+angles = [0, 30, 45, 60, 80]
+
+[[sweeps]]
+name = "extend"
+pose = { hand = [-1, 0, 0] }
+angles = [0, 30, 45, 60, 80]
+
+# 轴向位置以腕心为零，向手为正，单位是手骨长（腕到中指根）。方位角 0 是掌侧（屈侧），180 是手背侧，+90 是拇指侧。
+[zones.dorsal-arc]
+axial = [-0.45, 0.45]
+azimuth = 180
+spread = 65
+
+[zones.palmar-crease]
+axial = [-0.25, 0.25]
+azimuth = 0
+spread = 65
+
+[[phenomena]]
+id = "dorsal-curve"
+name = "屈腕时腕背成一段圆弧"
+structure = "桡骨远端背侧、近排和远排腕骨背面、伸肌腱及覆盖皮肤"
+kind = "stretch-flatten"
+sweep = "flex"
+from = 30
+to = 80
+zones = ["dorsal-arc"]
+views = ["front", "back", "side"]
+reading = "沿弯曲轴看，屈腕时腕背从前臂背面经腕骨到手背是一段有长度的圆弧，因为弯曲分在两排腕骨上；不能在一个点上折成硬角，也不能在腕背凹进去。"
+current = "看图达到。到 60° 全部身体腕背是一段圆弧，没有硬角，也不凹进去，相对前臂内缩 1.7–3.1 mm（没有手的半转骨时 4.5–7.0 mm）。代价是弧线起点的前臂背线外鼓 1.0–3.0 mm，rounded 最容易看出。折线的段数受网格排数限制，GLB 上看得到折段，`.blend` 有细分。"
+choice = "keep"
+decision = "腕背保留一段圆弧，屈腕分在两步上（chain 里的 hand 和 HandHalf）。"
+[[phenomena.evidence]]
+strength = "measured"
+claim = "Rainbow 等用 CT 量健康腕在负重极限屈腕时的腕骨运动：舟骨转到头状骨屈曲量的 70%，月骨 46%，其余在腕中关节；是极限负重位，不是主动屈腕的随角度曲线。正文样本数前后不一（方法写 6 名志愿者，摘要写 12 个腕）。读到 PMC 页面正文。"
+source = "Rainbow et al., In vivo kinematics of the scaphoid, lunate, capitate, and third metacarpal in extreme wrist flexion and extension, J Hand Surg Am 2013"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC3557539/"
+[[phenomena.evidence]]
+strength = "snippet"
+claim = "Sun 等用超快 CT 连续追踪 10 名无伤受试者从全屈到全伸，掌屈时桡腕和腕中关节贡献大致相等，背伸主要在腕中关节；只读到摘要。"
+source = "Sun et al., In vivo kinematic study of normal wrist motion: an ultrafast computed tomographic study, Clin Biomech 2000"
+url = "https://doi.org/10.1016/s0268-0033(99)00064-9"
+
+[[phenomena]]
+id = "palmar-crease"
+name = "屈侧腕横纹"
+structure = "腕掌侧皮肤、屈肌支持带浅面"
+kind = "crease"
+sweep = "flex"
+from = 30
+to = 80
+zones = ["palmar-crease"]
+views = ["front", "side"]
+reading = "屈侧在腕横纹处折成一道横褶，只在掌侧，不绕腕一圈，两侧不出尖角。"
+current = "达到。到 60° 掌侧仍是一道折，在腕环上，两侧没有尖角，toon 下是一条线；12 个典型身体塌陷 0，测试身体 `female-shortbust` 有 2 个，都在掌侧折痕里。80° 不在目标里：`chibi` 塌陷最多 8，手掌根和前臂相贴，`hand|lowerArm` 最多 16。"
+choice = "keep"
+decision = "保留一道横褶，压扁面算预期折痕。"
+[[phenomena.evidence]]
+strength = "observation"
+claim = "项目渲染：12 个典型身体屈腕 45、60° 的正面和侧面。腕横纹的体表位置有解剖书描述，这次没有读到可核对的原文，所以只作观察。"
+source = "项目渲染（scripts/upper_body_study.py sheet）"
