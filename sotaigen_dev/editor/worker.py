@@ -35,6 +35,7 @@ Run as: uv run -m sotaigen_dev.editor.worker
 
 import hashlib
 import json
+import os
 import sys
 import time
 from concurrent.futures import ProcessPoolExecutor
@@ -42,6 +43,13 @@ from concurrent.futures.process import BrokenProcessPool
 from functools import cache
 from multiprocessing import get_context
 from pathlib import Path
+
+# One BLAS thread, set before NumPy loads, since it reads them only then: this process makes part of
+# the correctives and the second the rest, and their arithmetic is the build's, whose processes run
+# single-threaded. NumPy's OpenBLAS (Linux) gives other last bits with more threads.
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("VECLIB_MAXIMUM_THREADS", "1")
 
 import numpy as np
 

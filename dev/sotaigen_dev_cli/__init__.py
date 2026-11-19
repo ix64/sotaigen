@@ -34,8 +34,19 @@ DESCRIPTIONS = {
 }
 
 
+# One BLAS thread in each command's process, set before NumPy loads, since it reads them only then: a
+# body that `build`, `export` or `blend` makes in its own process is then the bytes the build's pool
+# and the editor's worker make. NumPy's OpenBLAS (Linux) gives other last bits with more threads.
+# The same names as sotaigen.pipeline.SINGLE_THREADED, which this doesn't import.
+SINGLE_THREADED = ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "VECLIB_MAXIMUM_THREADS")
+
+
 def run_module(module, arguments, env=None):
-    """Use this environment, from this checkout; keep subprocess output and exit status visible."""
+    """Use this environment, from this checkout, with one BLAS thread unless it names another; keep
+    subprocess output and exit status visible."""
+    env = dict(os.environ if env is None else env)
+    for variable in SINGLE_THREADED:
+        env.setdefault(variable, "1")
     result = subprocess.run(
         [sys.executable, "-m", module, *arguments], cwd=ROOT, env=env, check=False
     )

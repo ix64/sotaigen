@@ -127,3 +127,25 @@ def test_bad_options_never_generate_files(monkeypatch, command):
 def test_signal_exit_status_is_preserved(monkeypatch):
     monkeypatch.setattr(cli.subprocess, "run", lambda *a, **k: SimpleNamespace(returncode=-15))
     assert cli.main(["build", "female-long"]) == 143
+
+
+def test_each_commands_process_has_one_blas_thread_unless_told_otherwise(monkeypatch):
+    from sotaigen import pipeline
+
+    assert sorted(cli.SINGLE_THREADED) == sorted(pipeline.SINGLE_THREADED)
+    for variable in cli.SINGLE_THREADED:
+        monkeypatch.delenv(variable, raising=False)
+    monkeypatch.setenv("OMP_NUM_THREADS", "3")
+    calls = []
+
+    def invoke(arguments, **kwargs):
+        calls.append(kwargs["env"])
+        return SimpleNamespace(returncode=0)
+
+    monkeypatch.setattr(cli.subprocess, "run", invoke)
+    assert cli.main(["export", "female-long"]) == 0
+    assert cli.main(["test", "tests/test_dev_cli.py"]) == 0
+    for env in calls:
+        assert env["OPENBLAS_NUM_THREADS"] == env["VECLIB_MAXIMUM_THREADS"] == "1"
+        assert env["OMP_NUM_THREADS"] == "3"
+    assert "OPENBLAS_NUM_THREADS" not in os.environ
