@@ -154,6 +154,18 @@ def pytest_terminal_summary(terminalreporter):
         )
 
 
+@pytest.fixture
+def blender_found(monkeypatch):
+    """For a test that stands in for Blender: whatever asks whether this machine can write a .blend
+    before computing anything hears yes, so the test runs the same with Blender or without."""
+    from sotaigen import cli
+    from sotaigen.output import blend
+    from sotaigen_dev.editor import worker
+
+    for module in (cli, blend, worker):
+        monkeypatch.setattr(module, "can_write_blend", lambda: None)
+
+
 def fail_unchecked(report):
     if hasattr(report, "wasxfail"):
         report.outcome = "failed"

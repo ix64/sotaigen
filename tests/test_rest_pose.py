@@ -234,6 +234,7 @@ def test_without_a_rest_pose_the_bundle_is_what_it_was(tmp_path):
 
 
 @pytest.mark.slow
+@pytest.mark.usefixtures("blender_found")
 def test_the_parameter_files_command_takes_the_same_arguments(tmp_path, monkeypatch):
     """`sotaigen blend` hands Blender the rest pose, and with no arguments none."""
     kept = []
@@ -254,6 +255,7 @@ def test_the_parameter_files_command_takes_the_same_arguments(tmp_path, monkeypa
         cli.main(["glb", str(file), str(tmp_path / "t.glb"), "--t-pose"])
 
 
+@pytest.mark.usefixtures("blender_found")
 def test_a_rest_pose_past_the_limits_stops_before_blender_runs(tmp_path, monkeypatch):
     monkeypatch.setattr(blend_module, "run_blender", lambda *a, **k: pytest.fail("Blender ran"))
     with pytest.raises(PastLimits):

@@ -908,10 +908,10 @@ def captured_bundle(monkeypatch, folder):
 
 
 @pytest.mark.slow
+@pytest.mark.usefixtures("blender_found")
 def test_the_workers_blend_is_given_to_blender_as_the_commands_is(tmp_path, monkeypatch):
     """The page's .blend and `sotaigen blend` write the same file: Blender is given the same."""
     kept = captured_bundle(monkeypatch, tmp_path / "kept")
-    monkeypatch.setattr(worker, "can_write_blend", lambda: None)
     name = "female-slim"
     spec = json.loads(json.dumps(body_specs()[name]))
     file = tmp_path / "body.json"
@@ -928,6 +928,7 @@ def test_the_workers_blend_is_given_to_blender_as_the_commands_is(tmp_path, monk
             assert np.array_equal(theirs[key], ours[key]), key
 
 
+@pytest.mark.usefixtures("blender_found")
 def test_only_a_head_swap_lets_a_neck_too_thin_for_the_head_through(tmp_path, monkeypatch, capsys):
     from sotaigen.params.rules import NECK_THIN_FOR_HEAD, problems
 
@@ -957,6 +958,7 @@ def test_only_a_head_swap_lets_a_neck_too_thin_for_the_head_through(tmp_path, mo
     capsys.readouterr()
 
 
+@pytest.mark.usefixtures("blender_found")
 def test_the_worker_says_why_it_wrote_no_blend(tmp_path, monkeypatch):
     kept = captured_bundle(monkeypatch, tmp_path / "kept")
     spec = body_specs()["female-slim"]

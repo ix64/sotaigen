@@ -209,6 +209,7 @@ def test_the_worker_looks_when_asked_and_refuses_what_the_rules_refuse(monkeypat
     assert bad["ok"] is False and bad["problems"]
 
 
+@pytest.mark.usefixtures("blender_found")
 def test_the_file_commands_say_it_on_refusal(tmp_path, monkeypatch, capsys):
     spec = another_body()
     exact = Body(None, None, None, BROKEN_WRAP, {})
