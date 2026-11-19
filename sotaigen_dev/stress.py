@@ -25,6 +25,7 @@ import threading
 import time
 from concurrent.futures import ProcessPoolExecutor
 from functools import cache
+from multiprocessing import get_context
 from pathlib import Path
 
 # One thread per worker: the pool is the parallelism, and BLAS would otherwise oversubscribe.
@@ -111,8 +112,14 @@ def exit_with_parent(parent):
 
 
 def worker_pool(workers):
-    """A process pool that leaves nothing running if this process is killed."""
-    return ProcessPoolExecutor(workers, initializer=exit_with_parent, initargs=(os.getpid(),))
+    """A process pool that leaves nothing running if this process is killed.
+
+    Spawned, so that each worker's parent is this process: under forkserver, Linux's default since
+    Python 3.14, it would be the server, and exit_with_parent would end every worker as it starts.
+    """
+    return ProcessPoolExecutor(
+        workers, mp_context=get_context("spawn"), initializer=exit_with_parent, initargs=(os.getpid(),)
+    )
 
 
 @cache

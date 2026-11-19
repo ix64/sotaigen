@@ -8,6 +8,7 @@ run. A check that gets stricter still applies, because only the measures are kep
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 
 import numpy as np
@@ -81,6 +82,13 @@ def measures(function, count, sex):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(rows))
     return rows
+
+
+def test_the_stress_pools_workers_are_this_processs_children():
+    """exit_with_parent ends a worker whose parent isn't this process, so on any start method this
+    has to hold, or every worker ends as it starts. measures() above only starts one on a cold cache."""
+    with stress.worker_pool(1) as pool:
+        assert pool.submit(os.getppid).result() == os.getpid()
 
 
 def show(bad):
